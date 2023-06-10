@@ -15,7 +15,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> sumSalariesEmployees() {
+    public double sumSalariesEmployees() {
         return employeeRepository.sumSalariesEmployees();
     }
 

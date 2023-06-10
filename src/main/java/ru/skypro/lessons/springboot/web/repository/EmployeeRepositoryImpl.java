@@ -2,6 +2,8 @@ package ru.skypro.lessons.springboot.web.repository;
 
 import ru.skypro.lessons.springboot.web.Employee;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository{
@@ -12,8 +14,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
             new Employee("Anton", 40000));
 
     @Override
-    public List<Employee> sumSalariesEmployees() {
-        return employeeList;
+    public double sumSalariesEmployees() {
+        return employeeList.stream().mapToDouble(Employee::getSalary).sum();
     }
 
     @Override

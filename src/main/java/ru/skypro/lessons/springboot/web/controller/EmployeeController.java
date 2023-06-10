@@ -19,7 +19,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/salary/sum")
-        public List<Employee> showSumSalaries() {
+        public double showSumSalaries() {
             return employeeService.sumSalariesEmployees();
         }
 

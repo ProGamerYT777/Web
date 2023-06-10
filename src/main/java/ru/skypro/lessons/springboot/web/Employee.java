@@ -2,7 +2,7 @@ package ru.skypro.lessons.springboot.web;
 
 public class Employee {
     private String name;
-    private int salary;
+    private double salary;
 
     public Employee(String name, int salary) {
         this.name = name;
@@ -17,7 +17,7 @@ public class Employee {
         this.name = name;
     }
 
-    public int getSalary() {
+    public double getSalary() {
         return salary;
     }
 
