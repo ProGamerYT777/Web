@@ -11,7 +11,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
             new Employee("Olga", 25000),
             new Employee("Anton", 40000));
 
-
     @Override
     public List<Employee> sumSalariesEmployees() {
         return employeeList;
