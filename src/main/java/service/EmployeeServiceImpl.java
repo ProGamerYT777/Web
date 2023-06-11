@@ -20,17 +20,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> minSalaryEmployee() {
+    public Employee minSalaryEmployee() {
         return employeeRepository.minSalaryEmployee();
     }
 
     @Override
-    public List<Employee> maxSalaryEmployee() {
+    public Employee maxSalaryEmployee() {
         return employeeRepository.maxSalaryEmployee();
     }
 
     @Override
-    public List<Employee> highAverageSalariesEmployees() {
+    public double highAverageSalariesEmployees() {
         return employeeRepository.highAverageSalariesEmployees();
     }
 }

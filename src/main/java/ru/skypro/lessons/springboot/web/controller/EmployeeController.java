@@ -24,17 +24,17 @@ public class EmployeeController {
         }
 
     @GetMapping("/salary/min")
-        public List<Employee> showMinSalary() {
+        public Employee showMinSalary() {
             return employeeService.minSalaryEmployee();
     }
 
     @GetMapping("/salary/max")
-        public List<Employee> showMaxSalary() {
+        public Employee showMaxSalary() {
             return employeeService.maxSalaryEmployee();
     }
 
     @GetMapping("/high-salary")
-        public List<Employee> showHighAverageSalaries() {
+        public double showHighAverageSalaries() {
             return employeeService.highAverageSalariesEmployees();
     }
     }

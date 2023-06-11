@@ -2,7 +2,6 @@ package ru.skypro.lessons.springboot.web.repository;
 
 import ru.skypro.lessons.springboot.web.Employee;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,17 +19,17 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
     }
 
     @Override
-    public List<Employee> minSalaryEmployee() {
-       return (List<Employee>) employeeList.stream().min(Comparator.comparing(Employee::getSalary)).orElseThrow(NoSuchElementException::new);
+    public Employee minSalaryEmployee() {
+       return employeeList.stream().min(Comparator.comparing(Employee::getSalary)).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public List<Employee> maxSalaryEmployee() {
-        return (List<Employee>) employeeList.stream().max(Comparator.comparing(Employee::getSalary)).orElseThrow(NoSuchElementException::new);
+    public Employee maxSalaryEmployee() {
+        return employeeList.stream().max(Comparator.comparing(Employee::getSalary)).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public List<Employee> highAverageSalariesEmployees() {
-        return employeeList;
+    public double highAverageSalariesEmployees() {
+        return sumSalariesEmployees() / employeeList.size();
     }
 }

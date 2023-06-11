@@ -1,5 +1,6 @@
 package ru.skypro.lessons.springboot.web;
 
+
 public class Employee {
     private String name;
     private double salary;

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface EmployeeService {
     double sumSalariesEmployees();
-    List<Employee> minSalaryEmployee();
-    List<Employee> maxSalaryEmployee();
-    List<Employee> highAverageSalariesEmployees();
+    Employee minSalaryEmployee();
+    Employee maxSalaryEmployee();
+    double highAverageSalariesEmployees();
 
 }
