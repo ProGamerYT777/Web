@@ -30,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public double highAverageSalariesEmployees() {
+    public List<Employee> highAverageSalariesEmployees() {
         return employeeRepository.highAverageSalariesEmployees();
     }
 }

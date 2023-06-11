@@ -34,7 +34,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/high-salary")
-        public double showHighAverageSalaries() {
+        public List<Employee> showHighAverageSalaries() {
             return employeeService.highAverageSalariesEmployees();
     }
     }

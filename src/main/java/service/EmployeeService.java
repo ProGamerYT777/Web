@@ -8,6 +8,6 @@ public interface EmployeeService {
     double sumSalariesEmployees();
     Employee minSalaryEmployee();
     Employee maxSalaryEmployee();
-    double highAverageSalariesEmployees();
+    List<Employee> highAverageSalariesEmployees();
 
 }

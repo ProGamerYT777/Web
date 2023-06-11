@@ -5,6 +5,7 @@ import ru.skypro.lessons.springboot.web.Employee;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository{
     private final List<Employee> employeeList = List.of(
@@ -29,7 +30,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
     }
 
     @Override
-    public double highAverageSalariesEmployees() {
-        return sumSalariesEmployees() / employeeList.size();
+    public List<Employee> highAverageSalariesEmployees() {
+        double averageSallary = sumSalariesEmployees() / employeeList.size();
+        return employeeList.stream().filter (e -> e.getSalary() >= averageSallary).collect (Collectors.toList());
     }
 }
