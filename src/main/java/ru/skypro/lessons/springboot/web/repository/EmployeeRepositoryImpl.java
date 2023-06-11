@@ -5,6 +5,7 @@ import ru.skypro.lessons.springboot.web.Employee;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository{
     private final List<Employee> employeeList = List.of(
@@ -20,12 +21,12 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
 
     @Override
     public List<Employee> minSalaryEmployee() {
-        return employeeList;
+       return (List<Employee>) employeeList.stream().min(Comparator.comparing(Employee::getSalary)).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     public List<Employee> maxSalaryEmployee() {
-        return employeeList;
+        return (List<Employee>) employeeList.stream().max(Comparator.comparing(Employee::getSalary)).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
