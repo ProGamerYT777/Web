@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.skypro.lessons.springboot.web.Employee;
-import service.EmployeeService;
+import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
 import java.util.List;
 
