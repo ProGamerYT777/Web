@@ -9,4 +9,9 @@ public interface EmployeeRepository {
     Employee minSalaryEmployee();
     Employee maxSalaryEmployee();
     List<Employee> highAverageSalariesEmployees();
+    void createEmployee(Employee employee);
+    void updateEmployeeById(int id);
+    Employee employeeGetById(int id);
+    void deleteById(int id);
+    List<Employee> EmployeesSalaryHighThan(double salary);
 }

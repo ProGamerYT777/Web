@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-public class EmployeeRepositoryImpl implements EmployeeRepository{
+public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final List<Employee> employeeList = List.of(
-            new Employee("Ivan", 30000),
-            new Employee("Oleg", 20000),
-            new Employee("Olga", 25000),
-            new Employee("Anton", 40000));
+            new Employee("Ivan", 30000, 1),
+            new Employee("Oleg", 20000, 2),
+            new Employee("Olga", 25000, 3),
+            new Employee("Anton", 40000, 4));
 
     @Override
     public double sumSalariesEmployees() {
@@ -32,6 +32,36 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
     @Override
     public List<Employee> highAverageSalariesEmployees() {
         double averageSallary = sumSalariesEmployees() / employeeList.size();
-        return employeeList.stream().filter (e -> e.getSalary() >= averageSallary).collect (Collectors.toList());
+            return employeeList.stream().filter (e -> e.getSalary() >= averageSallary).collect (Collectors.toList());
+    }
+
+    @Override
+    public void createEmployee(Employee employee) {
+        employeeList.add(employee);
+    }
+
+    @Override
+    public void updateEmployeeById(int id) {
+
+    }
+
+    @Override
+    public Employee employeeGetById(int id) {
+        try {
+            return employeeList.stream().filter(employee -> employee.getId() == id).findFirst().orElseThrow();
+        } catch (Exception e) {
+            System.out.println("Нет сотрудника с id: " + id);
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteById(int id) {
+        employeeList.remove(employeeGetById(id));
+    }
+
+    @Override
+    public List<Employee> EmployeesSalaryHighThan(double salary) {
+        return null;
     }
 }
