@@ -10,9 +10,9 @@ public interface EmployeeService {
     Employee maxSalaryEmployee();
     List<Employee> highAverageSalariesEmployees();
     void createEmployee(Employee employee);
-    void updateEmployeeById(int id);
-    Employee employeeGetById(int id);
+    void updateEmployeeById(Employee employee);
+    Employee getEmployeeById(int id);
     void deleteById(int id);
-    List<Employee> EmployeesSalaryHighThan(double salary);
+    List<Employee> employeesSalaryHighThan(double salary);
 
 }

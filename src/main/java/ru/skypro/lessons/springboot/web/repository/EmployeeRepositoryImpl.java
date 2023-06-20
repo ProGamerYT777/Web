@@ -2,13 +2,12 @@ package ru.skypro.lessons.springboot.web.repository;
 
 import ru.skypro.lessons.springboot.web.Employee;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final List<Employee> employeeList = List.of(
+
             new Employee("Ivan", 30000, 1),
             new Employee("Oleg", 20000, 2),
             new Employee("Olga", 25000, 3),
@@ -41,12 +40,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public void updateEmployeeById(int id) {
-
+    public void updateEmployeeById(Employee employee) {
+        Employee oldEmployee = getEmployeeById(employee.getId());
+        if (oldEmployee != null) {
+            oldEmployee.setName(employee.getName());
+            oldEmployee.setSalary(employee.getSalary());
+        }
     }
 
     @Override
-    public Employee employeeGetById(int id) {
+    public Employee getEmployeeById(int id) {
         try {
             return employeeList.stream().filter(employee -> employee.getId() == id).findFirst().orElseThrow();
         } catch (Exception e) {
@@ -57,11 +60,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public void deleteById(int id) {
-        employeeList.remove(employeeGetById(id));
+        employeeList.remove(getEmployeeById(id));
     }
 
     @Override
-    public List<Employee> EmployeesSalaryHighThan(double salary) {
-        return null;
+    public List<Employee> employeesSalaryHighThan(double salary) {
+        return employeeList.stream().filter(i -> i.getSalary() > salary).toList();
     }
 }

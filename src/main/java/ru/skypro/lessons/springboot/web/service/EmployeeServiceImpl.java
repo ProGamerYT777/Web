@@ -39,13 +39,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.createEmployee(employee);
     }
     @Override
-    public void updateEmployeeById(int id) {
-        employeeRepository.updateEmployeeById(id);
+    public void updateEmployeeById(Employee employee) {
+        employeeRepository.updateEmployeeById(employee);
     }
 
     @Override
-    public Employee employeeGetById(int id) {
-        return employeeRepository.employeeGetById(id);
+    public Employee getEmployeeById(int id) {
+        return employeeRepository.getEmployeeById(id);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> EmployeesSalaryHighThan(double salary) {
-        return employeeRepository.EmployeesSalaryHighThan(salary);
+    public List<Employee> employeesSalaryHighThan(double salary) {
+        return employeeRepository.employeesSalaryHighThan(salary);
     }
 }
 

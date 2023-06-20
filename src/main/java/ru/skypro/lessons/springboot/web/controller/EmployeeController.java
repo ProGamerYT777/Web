@@ -38,13 +38,13 @@ public class EmployeeController {
             employeeService.createEmployee(employee);
     }
     @PutMapping("/{id}")
-        public void updateEmployeeById(@PathVariable("id") int id) {
-            employeeService.updateEmployeeById(id);
+        public void updateEmployeeById(@PathVariable("id") @RequestBody Employee employee) {
+            employeeService.updateEmployeeById(employee);
     }
 
     @GetMapping("/{id}")
-        public Employee employeeGetById(@PathVariable("id") int id) {
-            return employeeService.employeeGetById(id);
+        public Employee getEmployeeById(@PathVariable("id") int id) {
+            return employeeService.getEmployeeById(id);
     }
     @DeleteMapping("/{id}")
         public void deleteById(@PathVariable("id") int id) {
@@ -52,7 +52,7 @@ public class EmployeeController {
     }
     @GetMapping("/salaryHigherThan?salary=")
         public List<Employee> showEmployeesSalaryHighThan(@RequestParam("salary") double salary) {
-           return employeeService.EmployeesSalaryHighThan(salary);
+           return employeeService.employeesSalaryHighThan(salary);
     }
 }
 
