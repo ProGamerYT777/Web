@@ -6,12 +6,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository {
-    private final List<Employee> employeeList = List.of(
+    private final ArrayList<Employee> employeeList = new ArrayList<>();
 
-            new Employee("Ivan", 30000, 1),
-            new Employee("Oleg", 20000, 2),
-            new Employee("Olga", 25000, 3),
-            new Employee("Anton", 40000, 4));
+            employeeList.add("Ivan", 30000, 1);
+            employeeList.add("Oleg", 20000, 2);
+            employeeList.add("Olga", 25000, 3);
+            employeeList.add("Anton", 40000, 4);
 
     @Override
     public double sumSalariesEmployees() {
