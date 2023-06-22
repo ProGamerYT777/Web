@@ -10,10 +10,10 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final ArrayList<Employee> employeeList = new ArrayList<>();
     @PostConstruct
     private void listElements() {
-        employeeList.add("Ivan", 30000, 1);
-        employeeList.add("Oleg", 20000, 2);
-        employeeList.add("Olga", 25000, 3);
-        employeeList.add("Anton", 40000, 4);
+        employeeList.add(new Employee("Ivan", 30000, 1));
+        employeeList.add(new Employee("Oleg", 20000, 2));
+        employeeList.add(new Employee("Olga", 25000, 3));
+        employeeList.add(new Employee("Anton", 40000, 4));
     }
 
     @Override
