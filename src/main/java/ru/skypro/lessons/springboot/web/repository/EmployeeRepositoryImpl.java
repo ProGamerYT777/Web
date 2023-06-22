@@ -1,5 +1,6 @@
 package ru.skypro.lessons.springboot.web.repository;
 
+import jakarta.annotation.PostConstruct;
 import ru.skypro.lessons.springboot.web.Employee;
 
 import java.util.*;
@@ -7,11 +8,13 @@ import java.util.stream.Collectors;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final ArrayList<Employee> employeeList = new ArrayList<>();
-
-            employeeList.add("Ivan", 30000, 1);
-            employeeList.add("Oleg", 20000, 2);
-            employeeList.add("Olga", 25000, 3);
-            employeeList.add("Anton", 40000, 4);
+    @PostConstruct
+    private void listElements() {
+        employeeList.add("Ivan", 30000, 1);
+        employeeList.add("Oleg", 20000, 2);
+        employeeList.add("Olga", 25000, 3);
+        employeeList.add("Anton", 40000, 4);
+    }
 
     @Override
     public double sumSalariesEmployees() {
