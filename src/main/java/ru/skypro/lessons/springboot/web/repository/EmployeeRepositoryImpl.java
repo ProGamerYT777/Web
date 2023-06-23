@@ -1,11 +1,12 @@
 package ru.skypro.lessons.springboot.web.repository;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Service;
 import ru.skypro.lessons.springboot.web.Employee;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Service
 public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final ArrayList<Employee> employeeList = new ArrayList<>();
     @PostConstruct
