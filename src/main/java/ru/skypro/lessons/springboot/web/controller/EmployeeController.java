@@ -1,8 +1,10 @@
 package ru.skypro.lessons.springboot.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.lessons.springboot.web.Employee;
+import ru.skypro.lessons.springboot.web.model.Employee;
+import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
 import java.util.List;
@@ -18,17 +20,14 @@ public class EmployeeController {
         public double showSumSalaries() {
             return employeeService.sumSalariesEmployees();
         }
-
     @GetMapping("/salary/min")
         public Employee showMinSalary() {
             return employeeService.minSalaryEmployee();
     }
-
     @GetMapping("/salary/max")
         public Employee showMaxSalary() {
             return employeeService.maxSalaryEmployee();
     }
-
     @GetMapping("/high-salary")
         public List<Employee> showHighAverageSalaries() {
             return employeeService.highAverageSalariesEmployees();
@@ -41,18 +40,33 @@ public class EmployeeController {
         public void updateEmployeeById(@PathVariable("id") @RequestBody Employee employee) {
             employeeService.updateEmployeeById(employee);
     }
-
     @GetMapping("/{id}")
-        public Employee getEmployeeById(@PathVariable("id") int id) {
+        public Employee getEmployeeById(@PathVariable("id") Integer id) {
             return employeeService.getEmployeeById(id);
     }
     @DeleteMapping("/{id}")
-        public void deleteById(@PathVariable("id") int id) {
+        public void deleteById(@PathVariable("id") Integer id) {
             employeeService.deleteById(id);
     }
     @GetMapping("/salaryHigherThan?salary=")
-        public List<Employee> showEmployeesSalaryHighThan(@RequestParam("salary") double salary) {
+        public List<Employee> showEmployeesSalaryHighThan(@RequestParam("salary") int salary) {
            return employeeService.employeesSalaryHighThan(salary);
+    }
+    @GetMapping("/withHighestSalary")
+        public List<Employee> showEmployeeWithHighestSalary() {
+            return employeeService.getEmployeeWithHighestSalary();
+    }
+    @GetMapping("?position=")
+        public List<Employee> getEmployeesByPositionLike(@RequestParam("position") String position) {
+            return employeeService.getEmployeesByPositionLike(position);
+    }
+    @GetMapping("/{id}/fullInfo")
+        public List<EmployeeFullInfo> getFullInfo(@PathVariable("id") Integer id) {
+            return employeeService.getFullInfo(id);
+    }
+    @GetMapping("/page?page=")
+        public List<Employee> getPageInfo(@RequestParam ("page") int pageIndex, int unitPerPage) {
+            return employeeService.getPageInfo(pageIndex, unitPerPage);
     }
 }
 

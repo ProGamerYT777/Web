@@ -1,7 +1,11 @@
 package ru.skypro.lessons.springboot.web.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.skypro.lessons.springboot.web.Employee;
+import ru.skypro.lessons.springboot.web.model.Employee;
+import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 
 import java.util.List;
@@ -38,24 +42,48 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void createEmployee(Employee employee) {
         employeeRepository.createEmployee(employee);
     }
+
     @Override
     public void updateEmployeeById(Employee employee) {
         employeeRepository.updateEmployeeById(employee);
     }
 
     @Override
-    public Employee getEmployeeById(int id) {
+    public Employee getEmployeeById(Integer id) {
         return employeeRepository.getEmployeeById(id);
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Integer id) {
         employeeRepository.deleteById(id);
     }
 
     @Override
-    public List<Employee> employeesSalaryHighThan(double salary) {
+    public List<Employee> employeesSalaryHighThan(int salary) {
         return employeeRepository.employeesSalaryHighThan(salary);
+    }
+
+    @Override
+    public List<Employee> getEmployeeWithHighestSalary() {
+        return employeeRepository.getEmployeeWithHighestSalary();
+    }
+
+    @Override
+    public List<Employee> getEmployeesByPositionLike(String position) {
+        return employeeRepository.getEmployeesByPositionLike(position);
+    }
+
+    @Override
+    public List<EmployeeFullInfo> getFullInfo(Integer id) {
+        return employeeRepository.getFullInfo(id);
+    }
+
+    @Override
+    public List<Employee> getPageInfo(int pageIndex, int unitPerPage) {
+        Pageable employeeOfConcretePage = PageRequest.of(pageIndex, unitPerPage);
+        Page<Employee> page = employeeRepository.findAll(employeeOfConcretePage);
+        return page.stream()
+                .toList();
     }
 }
 
