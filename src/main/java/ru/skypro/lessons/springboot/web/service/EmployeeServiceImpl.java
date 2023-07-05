@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
+import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 
 import java.util.List;
@@ -69,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getEmployeesByPositionLike(String position) {
+    public List<Employee> getEmployeesByPositionLike(Position position) {
         return employeeRepository.getEmployeesByPositionLike(position);
     }
 

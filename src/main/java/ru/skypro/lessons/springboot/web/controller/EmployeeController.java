@@ -1,10 +1,10 @@
 package ru.skypro.lessons.springboot.web.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
+import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
 import java.util.List;
@@ -56,15 +56,15 @@ public class EmployeeController {
         public List<Employee> showEmployeeWithHighestSalary() {
             return employeeService.getEmployeeWithHighestSalary();
     }
-    @GetMapping("?position=")
-        public List<Employee> getEmployeesByPositionLike(@RequestParam("position") String position) {
+    @GetMapping
+        public List<Employee> getEmployeesByPositionLike(@RequestParam("position") Position position) {
             return employeeService.getEmployeesByPositionLike(position);
     }
     @GetMapping("/{id}/fullInfo")
         public List<EmployeeFullInfo> getFullInfo(@PathVariable("id") Integer id) {
             return employeeService.getFullInfo(id);
     }
-    @GetMapping("/page?page=")
+    @GetMapping("/page")
         public List<Employee> getPageInfo(@RequestParam ("page") int pageIndex, int unitPerPage) {
             return employeeService.getPageInfo(pageIndex, unitPerPage);
     }

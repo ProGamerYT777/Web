@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
+import ru.skypro.lessons.springboot.web.model.Position;
 
 import java.util.List;
 
@@ -18,12 +19,11 @@ public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
     void deleteById(Integer id);
     List<Employee> employeesSalaryHighThan(int salary);
     List<Employee> getEmployeeWithHighestSalary();
-    List<Employee> getEmployeesByPositionLike(String position);
+    List<Employee> getEmployeesByPositionLike(Position position);
 
-    @Query("SELECT new ru.skypro.lessons.springboot.web.model.EmployeeFullInfo." +
-            "EmployeeFullInfo(e.name , e.salary , p.name) " +
+    @Query("SELECT e.name , e.salary , p.name " +
             "FROM Employee e join fetch Position p " +
-            "WHERE e.position = p")
+            "WHERE id = ?1 and e.position = p")
     List<EmployeeFullInfo> getFullInfo(Integer id);
     List<Employee> getPageInfo(int pageIndex, int unitPerPage);
 }
