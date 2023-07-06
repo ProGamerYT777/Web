@@ -10,6 +10,7 @@ import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -41,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void createEmployee(Employee employee) {
-        employeeRepository.createEmployee(employee);
+        employeeRepository.save(employee);
     }
 
     @Override
@@ -51,7 +52,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(Integer id) {
-        return employeeRepository.getEmployeeById(id);
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new IncorrectEmployeeIdException(id));
     }
 
     @Override
