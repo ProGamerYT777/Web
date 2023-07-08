@@ -8,15 +8,7 @@ import ru.skypro.lessons.springboot.web.model.Position;
 import java.util.List;
 
 public interface EmployeeService {
-    double sumSalariesEmployees();
-    Employee minSalaryEmployee();
-    Employee maxSalaryEmployee();
-    List<Employee> highAverageSalariesEmployees();
-    void createEmployee(Employee employee);
-    void updateEmployeeById(Employee employee);
-    Employee getEmployeeById(Integer id);
-    void deleteById(Integer id);
-    List<Employee> employeesSalaryHighThan(int salary);
+
     List<Employee> getEmployeeWithHighestSalary();
     List<Employee> getEmployeesByPositionLike(Position position);
     List<EmployeeFullInfo> getFullInfo(Integer id);

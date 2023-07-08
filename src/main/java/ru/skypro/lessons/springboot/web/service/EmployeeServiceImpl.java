@@ -10,61 +10,10 @@ import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
-
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
-    @Override
-    public double sumSalariesEmployees() {
-        return employeeRepository.sumSalariesEmployees();
-    }
-
-    @Override
-    public Employee minSalaryEmployee() {
-        return employeeRepository.minSalaryEmployee();
-    }
-
-    @Override
-    public Employee maxSalaryEmployee() {
-        return employeeRepository.maxSalaryEmployee();
-    }
-
-    @Override
-    public List<Employee> highAverageSalariesEmployees() {
-        return employeeRepository.highAverageSalariesEmployees();
-    }
-
-    @Override
-    public void createEmployee(Employee employee) {
-        employeeRepository.save(employee);
-    }
-
-    @Override
-    public void updateEmployeeById(Employee employee) {
-        employeeRepository.updateEmployeeById(employee);
-    }
-
-    @Override
-    public Employee getEmployeeById(Integer id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(() -> new IncorrectEmployeeIdException(id));
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        employeeRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Employee> employeesSalaryHighThan(int salary) {
-        return employeeRepository.employeesSalaryHighThan(salary);
-    }
 
     @Override
     public List<Employee> getEmployeeWithHighestSalary() {
