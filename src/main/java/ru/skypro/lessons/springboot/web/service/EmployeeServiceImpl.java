@@ -15,6 +15,10 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
     @Override
     public List<Employee> getEmployeeWithHighestSalary() {
         return employeeRepository.getEmployeeWithHighestSalary();
