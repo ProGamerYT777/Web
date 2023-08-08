@@ -16,14 +16,8 @@ import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.model.Report;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,7 +90,18 @@ public class EmployeeController {
         System.out.println(employeeDTO);
     }
     @PostMapping(value = "/report")
-        public void reportToFile(Report report) {
+        public String reportToFile(Report report) {
+        InputStream inputStream;
+        try {
+            inputStream = new FileInputStream(String.valueOf(report));
+            int streamSize = inputStream.available();
+            byte[] bytes = new byte[streamSize];
+            inputStream.read(bytes);
+            inputStream.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            return "";
+        }
     }
     @GetMapping(value = "/report/{id}")
         public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id) {
