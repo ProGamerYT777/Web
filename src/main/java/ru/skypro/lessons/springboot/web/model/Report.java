@@ -51,4 +51,15 @@ public class Report implements Serializable {
     public void setAverageSalary(int averageSalary) {
         this.averageSalary = averageSalary;
     }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "departmentName='" + departmentName + '\'' +
+                ", quantityEmployees=" + quantityEmployees +
+                ", maxSalary=" + maxSalary +
+                ", minSalary=" + minSalary +
+                ", averageSalary=" + averageSalary +
+                '}';
+    }
 }

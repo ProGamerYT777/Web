@@ -25,7 +25,7 @@ public interface EmployeeService {
     List<Employee> getEmployeesByPositionLike(Position position);
     List<EmployeeFullInfo> getFullInfo(Integer id);
     List<Employee> getPageInfo(int pageIndex, int unitPerPage);
-    Report upload(Report report);
+    Report upload(MultipartFile resource);
     void reportToFile(MultipartFile report);
     ResponseEntity<Resource> downloadFile(Integer id);
 

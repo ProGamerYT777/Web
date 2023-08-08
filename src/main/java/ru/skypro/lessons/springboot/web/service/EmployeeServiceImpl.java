@@ -92,7 +92,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Report upload(Report report) {
+    public Report upload(MultipartFile resource) {
         return report;
     }
 
