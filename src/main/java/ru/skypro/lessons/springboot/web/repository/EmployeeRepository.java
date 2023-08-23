@@ -36,7 +36,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
             "FROM Employee e join fetch Position p " +
             "WHERE e.id = ?1 and e.position = p")
     List<EmployeeFullInfo> getFullInfo(Integer id);
-    Report upload(Report report);
+    void upload(MultipartFile file);
     void reportToFile(MultipartFile report);
     ResponseEntity<Resource> downloadFile(Integer id);
 

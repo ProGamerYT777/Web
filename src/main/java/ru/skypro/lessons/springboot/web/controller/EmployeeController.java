@@ -17,7 +17,6 @@ import ru.skypro.lessons.springboot.web.model.Report;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,34 +82,16 @@ public class EmployeeController {
             return employeeService.getPageInfo(pageIndex, unitPerPage);
     }
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-        public void upload(@RequestParam("file") MultipartFile file) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = "{\"name\":\"Ivan\",\"name\":Vasily}\n";
-        EmployeeDTO employeeDTO =  objectMapper.readValue(json, EmployeeDTO.class);
-        System.out.println(employeeDTO);
+        public void upload(@RequestParam("file") MultipartFile file) throws JsonProcessingException{
+
     }
     @PostMapping(value = "/report")
         public String reportToFile(Report report) {
-        InputStream inputStream;
-        try {
-            inputStream = new FileInputStream(String.valueOf(report));
-            int streamSize = inputStream.available();
-            byte[] bytes = new byte[streamSize];
-            inputStream.read(bytes);
-            inputStream.close();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            return "";
-        }
+        return employeeService.reportToFile(report);
     }
     @GetMapping(value = "/report/{id}")
         public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id) {
-        String fileName = "report.json";
-        String json = "{\"departmentName\":\"Workink\",\"quantityEmployees\":\"100\",\"maxSalary\":\"150000\",\"minSalary\":50000}\",\"averageSalary\":\"100000}\n";
-            Resource resource = new ByteArrayResource(json.getBytes());
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .body(resource);
+        return employeeService.downloadFile(id);
     }
 }
 
