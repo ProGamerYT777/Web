@@ -82,8 +82,8 @@ public class EmployeeController {
             return employeeService.getPageInfo(pageIndex, unitPerPage);
     }
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-        public void upload(@RequestParam("file") MultipartFile file) throws JsonProcessingException{
-
+        public void upload(@RequestParam("file") MultipartFile file) throws IOException {
+        employeeService.upload(file);
     }
     @PostMapping(value = "/report")
         public String reportToFile(Report report) {

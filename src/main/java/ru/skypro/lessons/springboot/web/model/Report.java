@@ -1,65 +1,36 @@
 package ru.skypro.lessons.springboot.web.model;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 
+import java.io.Serializable;
+@Entity
+@Table(name = "report")
 public class Report implements Serializable {
-    private String departmentName;
-    private int quantityEmployees;
-    private int maxSalary;
-    private int minSalary;
-    private int averageSalary;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private byte[] fileReport;
 
     public Report() {
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public Report(Integer id, byte[] fileReport) {
+        this.id = id;
+        this.fileReport = fileReport;
+    }
+    public Integer getId() {
+        return id;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public int getQuantityEmployees() {
-        return quantityEmployees;
+    public byte[] getFileReport() {
+        return fileReport;
     }
 
-    public void setQuantityEmployees(int quantityEmployees) {
-        this.quantityEmployees = quantityEmployees;
-    }
-
-    public int getMaxSalary() {
-        return maxSalary;
-    }
-
-    public void setMaxSalary(int maxSalary) {
-        this.maxSalary = maxSalary;
-    }
-
-    public int getMinSalary() {
-        return minSalary;
-    }
-
-    public void setMinSalary(int minSalary) {
-        this.minSalary = minSalary;
-    }
-
-    public int getAverageSalary() {
-        return averageSalary;
-    }
-
-    public void setAverageSalary(int averageSalary) {
-        this.averageSalary = averageSalary;
-    }
-
-    @Override
-    public String toString() {
-        return "Report{" +
-                "departmentName='" + departmentName + '\'' +
-                ", quantityEmployees=" + quantityEmployees +
-                ", maxSalary=" + maxSalary +
-                ", minSalary=" + minSalary +
-                ", averageSalary=" + averageSalary +
-                '}';
+    public void setFileReport(byte[] fileReport) {
+        this.fileReport = fileReport;
     }
 }

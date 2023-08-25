@@ -11,8 +11,10 @@ import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.model.Report;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
@@ -25,7 +27,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Optional<Employee> getEmployeeById(Integer id);
     void deleteById(Integer id);
     List<Employee> employeesSalaryHighThan(int salary);
-    @Query (value = "SELECT * " +
+    @Query(value = "SELECT * " +
             "FROM Employee e " +
             "WHERE salary = (SELECT MAX(salary) FROM Employee e2)",
              nativeQuery = true)
@@ -36,8 +38,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
             "FROM Employee e join fetch Position p " +
             "WHERE e.id = ?1 and e.position = p")
     List<EmployeeFullInfo> getFullInfo(Integer id);
-    void upload(MultipartFile file);
-    void reportToFile(MultipartFile report);
+    void upload(MultipartFile file) throws IOException;
+    @Query(value = "CREATE TABLE report (" +
+            "departmentName STRING NOT NULL," +
+            "quantityEmployees INTEGER NOT NULL" +
+            "maxSalary INTEGER NOT NULL" +
+            "minSalary INTEGER NOT NULL" +
+            "averageSalary INTEGER NOT NULL)",
+            nativeQuery = true)
+    String reportToFile(Report report);
     ResponseEntity<Resource> downloadFile(Integer id);
 
 }
