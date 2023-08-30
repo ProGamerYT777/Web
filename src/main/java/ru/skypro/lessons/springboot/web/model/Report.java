@@ -1,6 +1,8 @@
 package ru.skypro.lessons.springboot.web.model;
 
 import jakarta.persistence.*;
+import jakarta.persistence.metamodel.SingularAttribute;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.io.Serializable;
 @Entity
@@ -18,15 +20,15 @@ public class Report implements Serializable {
         this.id = id;
         this.fileReport = fileReport;
     }
-    public Integer getId() {
-        return id;
+    public Integer getId(SingularAttribute<AbstractPersistable, Serializable> id) {
+        return this.id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public byte[] getFileReport() {
+    public byte[] getFileReport(Integer id) {
         return fileReport;
     }
 

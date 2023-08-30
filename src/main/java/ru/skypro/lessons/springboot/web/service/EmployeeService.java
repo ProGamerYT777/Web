@@ -29,6 +29,6 @@ public interface EmployeeService {
     List<Employee> getPageInfo(int pageIndex, int unitPerPage);
     void upload(MultipartFile file) throws IOException;
     String reportToFile(Report report);
-    ResponseEntity<Resource> downloadFile(Integer id);
+    ResponseEntity<Resource> downloadFile(Integer id, Report report);
 
 }

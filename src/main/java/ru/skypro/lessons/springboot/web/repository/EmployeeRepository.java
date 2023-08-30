@@ -1,6 +1,7 @@
 package ru.skypro.lessons.springboot.web.repository;
 
 import io.github.classgraph.Resource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
             "averageSalary INTEGER NOT NULL)",
             nativeQuery = true)
     String reportToFile(Report report);
-    ResponseEntity<Resource> downloadFile(Integer id);
+    ResponseEntity<Resource> downloadFile(ByteArrayResource report);
 
 }

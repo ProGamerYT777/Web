@@ -1,15 +1,11 @@
 package ru.skypro.lessons.springboot.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.classgraph.Resource;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.model.Position;
@@ -89,9 +85,9 @@ public class EmployeeController {
         public String reportToFile(Report report) {
         return employeeService.reportToFile(report);
     }
-    @GetMapping(value = "/report/{id}")
-        public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id) {
-        return employeeService.downloadFile(id);
+    @GetMapping(value = "/report/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+        public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id, Report report) {
+        return employeeService.downloadFile(id, report);
     }
 }
 

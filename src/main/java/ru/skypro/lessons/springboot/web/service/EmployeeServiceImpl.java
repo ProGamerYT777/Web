@@ -1,17 +1,12 @@
 package ru.skypro.lessons.springboot.web.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.classgraph.Resource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,10 +18,7 @@ import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -119,8 +111,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public ResponseEntity<Resource> downloadFile(Integer id) {
-
+    public ResponseEntity<Resource> downloadFile(Integer id, Report report) {
+        ByteArrayResource resource = new ByteArrayResource(report.getFileReport(id));
+        return employeeRepository.downloadFile(resource);
     }
 }
-
