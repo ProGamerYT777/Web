@@ -81,13 +81,6 @@ public class EmployeeController {
         public void upload(@RequestParam("file") MultipartFile file) throws IOException {
         employeeService.upload(file);
     }
-    @PostMapping(value = "/report")
-        public String reportToFile(Report report) {
-        return employeeService.reportToFile(report);
-    }
-    @GetMapping(value = "/report/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-        public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id, Report report) {
-        return employeeService.downloadFile(id, report);
-    }
 }
+
 

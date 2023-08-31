@@ -1,6 +1,5 @@
 package ru.skypro.lessons.springboot.web.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.classgraph.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,5 @@ public interface EmployeeService {
     List<EmployeeFullInfo> getFullInfo(Integer id);
     List<Employee> getPageInfo(int pageIndex, int unitPerPage);
     void upload(MultipartFile file) throws IOException;
-    String reportToFile(Report report);
-    ResponseEntity<Resource> downloadFile(Integer id, Report report);
 
 }
