@@ -4,7 +4,6 @@ import io.github.classgraph.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.lessons.springboot.web.model.Report;
 import ru.skypro.lessons.springboot.web.service.ReportService;
 
 import java.io.IOException;
@@ -19,8 +18,8 @@ public class ReportController {
     }
 
     @PostMapping(value = "/")
-    public Integer reportToFile(Report report) {
-        return reportService.reportToFile(report);
+    public Integer reportToFile() {
+        return reportService.reportToFile();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

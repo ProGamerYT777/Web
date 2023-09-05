@@ -1,15 +1,11 @@
 package ru.skypro.lessons.springboot.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import io.github.classgraph.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.model.Position;
-import ru.skypro.lessons.springboot.web.model.Report;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
 import java.io.*;
