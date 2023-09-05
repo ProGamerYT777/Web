@@ -23,7 +23,7 @@ public class ReportController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id) throws IOException {
+    public Resource downloadFile(@PathVariable("id") Integer id) throws IOException {
         return reportService.downloadFile(id);
     }
 }

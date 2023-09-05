@@ -1,13 +1,13 @@
 package ru.skypro.lessons.springboot.web.service;
 
 import io.github.classgraph.Resource;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.skypro.lessons.springboot.web.model.Report;
 import ru.skypro.lessons.springboot.web.repository.ReportRepository;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Optional;
 
 @Service
@@ -21,13 +21,15 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public Integer reportToFile() {
         Report createFile = (Report) reportRepository.findAll();
-        return createFile.getId();
+        return reportRepository.save(createFile).getId();
     }
 
     @Override
-    public ResponseEntity<Resource> downloadFile(Integer id) throws IOException {
+    public Resource downloadFile(Integer id) throws IOException {
         Optional<Report> foundFile = reportRepository.findById(id);
-        ByteArrayResource resource = new ByteArrayResource(foundFile.get().getFileReport());
-        return reportRepository.downloadFile(resource.getByteArray());
+        try (FileOutputStream fileOutputStream = new FileOutputStream(String.valueOf(foundFile));
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+             objectOutputStream.writeObject(foundFile);
+        }
     }
 }
