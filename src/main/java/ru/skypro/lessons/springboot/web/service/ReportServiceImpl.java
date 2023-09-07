@@ -3,6 +3,7 @@ package ru.skypro.lessons.springboot.web.service;
 import io.github.classgraph.Resource;
 import org.springframework.stereotype.Service;
 import ru.skypro.lessons.springboot.web.model.Report;
+import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 import ru.skypro.lessons.springboot.web.repository.ReportRepository;
 
 import java.io.FileOutputStream;
@@ -20,7 +21,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Integer reportToFile() {
-        Report createFile = (Report) reportRepository.findAll();
+        Report createFile = (Report) EmployeeRepository.getFullInfo();
         return reportRepository.save(createFile).getId();
     }
 

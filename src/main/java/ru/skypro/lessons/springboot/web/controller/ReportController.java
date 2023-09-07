@@ -2,7 +2,6 @@ package ru.skypro.lessons.springboot.web.controller;
 
 import io.github.classgraph.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.lessons.springboot.web.service.ReportService;
 
