@@ -1,5 +1,6 @@
 package ru.skypro.lessons.springboot.web.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.classgraph.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +13,7 @@ import java.io.IOException;
 public interface ReportRepository extends JpaRepository<Report, Integer> {
     @Query(value = "SELECT report.*)",
             nativeQuery = true)
-    Integer reportToFile();
+    Integer reportToFile() throws JsonProcessingException;
 
     Resource downloadFile(byte[] report) throws IOException;
 }

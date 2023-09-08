@@ -1,5 +1,6 @@
 package ru.skypro.lessons.springboot.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.classgraph.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ReportController {
     }
 
     @PostMapping(value = "/")
-    public Integer reportToFile() {
+    public Integer reportToFile() throws JsonProcessingException {
         return reportService.reportToFile();
     }
 
