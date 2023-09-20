@@ -37,11 +37,11 @@ public class EmployeeController {
     public List<Employee> showHighAverageSalaries() {
         return employeeService.highAverageSalariesEmployees();
     }
-    @PostMapping("/")
+    @PostMapping("/admin/")
     public void createEmployee(@RequestBody Employee employee) {
         employeeService.createEmployee(employee);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public void updateEmployeeById(@PathVariable("id") @RequestBody Employee employee) {
         employeeService.updateEmployeeById(employee);
     }
@@ -49,7 +49,7 @@ public class EmployeeController {
     public Optional<Employee> getEmployeeById(@PathVariable("id") Integer id) {
         return employeeService.getEmployeeById(id);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteById(@PathVariable("id") Integer id) {
         employeeService.deleteById(id);
     }
@@ -73,7 +73,7 @@ public class EmployeeController {
         public List<Employee> getPageInfo(@RequestParam ("page") int pageIndex, int unitPerPage) {
             return employeeService.getPageInfo(pageIndex, unitPerPage);
     }
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/admin/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
         public void upload(@RequestParam("file") MultipartFile file) throws IOException {
         employeeService.upload(file);
     }

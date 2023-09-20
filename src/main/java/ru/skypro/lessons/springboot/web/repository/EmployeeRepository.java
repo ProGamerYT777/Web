@@ -34,7 +34,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query("SELECT e.name , e.salary , p.name " +
             "FROM Employee e join fetch Position p " +
             "WHERE e.id = ?1 and e.position = p")
-    List<EmployeeFullInfo> getFullInfo(Integer id);
+    List<EmployeeFullInfo> getFullInfo();
     void upload(MultipartFile file) throws IOException;
 
 }

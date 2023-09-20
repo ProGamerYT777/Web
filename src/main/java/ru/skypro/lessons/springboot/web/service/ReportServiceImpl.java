@@ -2,7 +2,6 @@ package ru.skypro.lessons.springboot.web.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.classgraph.Resource;
 import org.springframework.stereotype.Service;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.model.Report;
@@ -26,15 +25,17 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Integer reportToFile() throws JsonProcessingException {
+    public void reportToFile() throws JsonProcessingException {
         List<EmployeeFullInfo> createFile = employeeRepository.getFullInfo();
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonFile = objectMapper.writeValueAsString(createFile);
-        return reportRepository.save(jsonFile);
+        Report report = new Report();
+        report.setFileReport(jsonFile.getBytes());
+        reportRepository.save(report);
     }
 
     @Override
-    public Resource downloadFile(Integer id) throws IOException {
+    public void downloadFile(Integer id) throws IOException {
         Optional<Report> foundFile = reportRepository.findById(id);
         try (FileOutputStream fileOutputStream = new FileOutputStream(String.valueOf(foundFile));
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
