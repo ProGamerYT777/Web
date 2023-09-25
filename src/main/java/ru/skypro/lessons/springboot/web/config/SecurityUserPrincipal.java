@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.skypro.lessons.springboot.web.model.AuthUser;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class SecurityUserPrincipal implements UserDetails {
     private AuthUser user;
@@ -15,7 +16,7 @@ public class SecurityUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singleton(user.getAuthority());
     }
 
     @Override

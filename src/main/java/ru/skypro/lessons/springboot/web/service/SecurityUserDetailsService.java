@@ -11,9 +11,11 @@ import ru.skypro.lessons.springboot.web.repository.UserRepository;
 
 @Service
 public class SecurityUserDetailsService implements UserDetailsService {
-    @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    public SecurityUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     @Override
     public UserDetails loadUserByUsername(String username) {
         AuthUser user = userRepository.findByUsername(username);

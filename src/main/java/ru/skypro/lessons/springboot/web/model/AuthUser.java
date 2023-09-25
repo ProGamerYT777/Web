@@ -1,6 +1,7 @@
 package ru.skypro.lessons.springboot.web.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
 @Table(name = "auth_user")
@@ -11,6 +12,7 @@ public class AuthUser {
     @Column(nullable = false, unique = true)
     private String username;
     private String password;
+    private SimpleGrantedAuthority authority;
 
     private Long getId() {
         return id;
@@ -36,4 +38,11 @@ public class AuthUser {
         this.password = password;
     }
 
+    public SimpleGrantedAuthority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(SimpleGrantedAuthority authority) {
+        this.authority = authority;
+    }
 }
