@@ -1,11 +1,14 @@
 package ru.skypro.lessons.springboot.web.config;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.skypro.lessons.springboot.web.model.AuthUser;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class SecurityUserPrincipal implements UserDetails {
     private AuthUser user;
@@ -16,7 +19,9 @@ public class SecurityUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(user.getAuthority());
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        list.add(new SimpleGrantedAuthority(user.getRole().toString()));
+        return list;
     }
 
     @Override

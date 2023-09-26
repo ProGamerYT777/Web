@@ -2,6 +2,7 @@ package ru.skypro.lessons.springboot.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.lessons.springboot.web.service.ReportService;
 
@@ -15,8 +16,8 @@ public class ReportController {
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
     }
-
-    @PostMapping(value = "/admin/")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping(value = "/")
     public void reportToFile() throws JsonProcessingException {
         reportService.reportToFile();
     }
