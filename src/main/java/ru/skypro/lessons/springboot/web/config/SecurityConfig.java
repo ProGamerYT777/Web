@@ -63,8 +63,7 @@ public class SecurityConfig {
     }
     private void customizeRequest(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
         try {
-            registry.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("ADMIN")
-                    .requestMatchers(new AntPathRequestMatcher("/**")).hasAnyRole("USER")
+            registry.requestMatchers(new AntPathRequestMatcher("/**")).hasAnyRole("USER")
                     .and().formLogin().permitAll().and().logout().logoutUrl("/logout");
         }
         catch (Exception e) {
