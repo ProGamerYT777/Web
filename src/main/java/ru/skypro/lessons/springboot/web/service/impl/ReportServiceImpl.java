@@ -22,7 +22,7 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
     private final EmployeeRepository employeeRepository;
 
-    Logger logger = LoggerFactory.getLogger(ReportServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(ReportServiceImpl.class);
 
     public ReportServiceImpl(ReportRepository reportRepository, EmployeeRepository employeeRepository) {
         this.reportRepository = reportRepository;

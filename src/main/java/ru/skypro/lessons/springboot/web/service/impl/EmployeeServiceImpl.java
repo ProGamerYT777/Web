@@ -24,7 +24,7 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
-    Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;

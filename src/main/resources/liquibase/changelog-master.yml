@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/changesets/01012023_create_employee.yml
+  - include:
+      file: liquibase/changesets/01012023_create_position.yml
