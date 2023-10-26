@@ -7,8 +7,8 @@ databaseChangeLog:
             tableName: position
             columns:
               - column:
-                  name: position_id
-                  type: int
+                  name: id
+                  type: integer
                   autoIncrement: true
                   constraints:
                     primaryKey: true
