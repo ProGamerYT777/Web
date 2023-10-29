@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 2
       author: developer
       changes:
         - createTable:
@@ -23,8 +23,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: position
-                  type: Position
+                  name: position_id
+                  type: int
                   constraints:
                     nullable: false
 
