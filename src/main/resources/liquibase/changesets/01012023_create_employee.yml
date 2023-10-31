@@ -27,4 +27,11 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
+              - addForeignKeyConstraint:
+                  baseTableName: employee
+                  baseColumnNames: position_id
+                  referencedTableName: position
+                  referencedColumnNames: id
+                  constraintName: employee_position_fk
+
 
