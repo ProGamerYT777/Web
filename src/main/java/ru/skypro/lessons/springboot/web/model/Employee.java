@@ -1,5 +1,6 @@
 package ru.skypro.lessons.springboot.web.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,7 +13,9 @@ public class Employee {
     private int salary;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "position_id")
+    @JsonBackReference
     private Position position;
+    private int counter = 0;
 
     public Employee() {
     }
@@ -23,12 +26,32 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    public Employee(String name, int salary) {
+        this.id = counter++;
+        this.name = name;
+        this.salary = salary;
+    }
+    public Employee(Integer id, String name, int salary, Position position) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.position = position;
+    }
+    public Employee(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public int setId(Integer id) {
         this.id = id;
+        return id;
     }
 
     public String getName() {

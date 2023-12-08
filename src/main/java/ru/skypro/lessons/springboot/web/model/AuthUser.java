@@ -1,15 +1,12 @@
 package ru.skypro.lessons.springboot.web.model;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.management.relation.Role;
 
 @Entity
 @Table(name = "auth_user")
 public class AuthUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO);
     private Long id;
     @Column(nullable = false, unique = true)
     private String username;
