@@ -16,4 +16,6 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
     Integer reportToFile() throws JsonProcessingException;
 
     Resource downloadFile(byte[] report) throws IOException;
+
+
 }

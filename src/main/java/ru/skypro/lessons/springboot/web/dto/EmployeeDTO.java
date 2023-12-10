@@ -10,7 +10,7 @@ public class EmployeeDTO {
     private Position position;
     private int count = 0;
 
-    public EmployeeDTO( String name, Integer salary, Position position) {
+    public EmployeeDTO(String name, Integer salary, Position position) {
         this.id = count++;
         this.name = name;
         this.salary = salary;

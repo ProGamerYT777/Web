@@ -48,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> highAverageSalariesEmployees() {
+    public Integer highAverageSalariesEmployees() {
         logger.info("Was invoked method to get all employees whose salary is higher than the average");
         return employeeRepository.highAverageSalariesEmployees();
     }

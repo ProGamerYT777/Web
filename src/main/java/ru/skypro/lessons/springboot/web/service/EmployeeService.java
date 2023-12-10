@@ -16,7 +16,7 @@ public interface EmployeeService {
     double sumSalariesEmployees();
     Employee minSalaryEmployee();
     Employee maxSalaryEmployee();
-    List<Employee> highAverageSalariesEmployees();
+    Integer highAverageSalariesEmployees();
     void createEmployee(Employee employee);
     void updateEmployeeById(Employee employee);
     Optional<Employee> getEmployeeById(Integer id);

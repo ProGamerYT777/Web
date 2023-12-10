@@ -1,4 +1,4 @@
-package ru.skypro.lessons.springboot.web.service;
+package ru.skypro.lessons.springboot.web.integrationControllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 @Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class EmployeeServiceImplTest {
+public class EmployeeControllerTest {
 
     @Autowired
     MockMvc mockMvc;

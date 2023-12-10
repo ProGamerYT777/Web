@@ -18,7 +18,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     double sumSalariesEmployees();
     Employee minSalaryEmployee();
     Employee maxSalaryEmployee();
-    List<Employee> highAverageSalariesEmployees();
+    @Query("SELECT AVG(e.salary) from  Employee e")
+    Integer highAverageSalariesEmployees();
     void createEmployee(Employee employee);
     void updateEmployeeById(Employee employee);
     Optional<Employee> getEmployeeById(Integer id);

@@ -35,7 +35,7 @@ public class EmployeeController {
         return employeeService.maxSalaryEmployee();
     }
     @GetMapping("/high-salary")
-    public List<Employee> showHighAverageSalaries() {
+    public Integer showHighAverageSalaries() {
         return employeeService.highAverageSalariesEmployees();
     }
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
