@@ -13,7 +13,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.skypro.lessons.springboot.web.WebApplication;
+import ru.skypro.lessons.springboot.web.WebApplicationTests;
 import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = WebApplication.class)
+@SpringBootTest(classes = WebApplicationTests.class)
 @AutoConfigureMockMvc(addFilters = false)
 @Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
