@@ -13,8 +13,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.skypro.lessons.springboot.web.WebApplicationTests;
 import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
+import ru.skypro.lessons.springboot.web.dto.PositionDTO;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.model.Position;
@@ -138,10 +138,10 @@ public class EmployeeControllerTest {
     @Test
     void getShowSalaryMin_test() throws Exception {
         List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new Position(0, "test")));
+        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
 
         mockMvc.perform(post("/employee")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -156,10 +156,10 @@ public class EmployeeControllerTest {
     @Test
     void getShowSalaryMax_test() throws Exception {
         List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new Position(0, "test")));
+        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
 
         mockMvc.perform(post("/employee")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -174,10 +174,10 @@ public class EmployeeControllerTest {
     @Test
     void getEmployeesWithSalaryHigherThan_test() throws Exception {
         List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new Position(0, "test")));
+        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
 
         mockMvc.perform(post("/employee")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -193,10 +193,10 @@ public class EmployeeControllerTest {
     @Test
     void getEmployeesByIdWithRequired_Test() throws Exception {
         List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new Position(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new Position(0, "test")));
+        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
+        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
         int id = 1;
 
         mockMvc.perform(post("/employee")
@@ -295,5 +295,4 @@ public class EmployeeControllerTest {
                         .file(file))
                 .andExpect(status().isOk());
     }
-
 }

@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.skypro.lessons.springboot.web.WebApplicationTests;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

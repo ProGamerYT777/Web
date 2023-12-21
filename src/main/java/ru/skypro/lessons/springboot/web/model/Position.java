@@ -1,6 +1,9 @@
 package ru.skypro.lessons.springboot.web.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "position")
@@ -9,6 +12,9 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    @OneToMany(mappedBy = "position")
+    @JsonManagedReference
+    private List<Employee> employee;
 
     public Position() {
     }
@@ -32,5 +38,13 @@ public class Position {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
