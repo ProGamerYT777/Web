@@ -7,6 +7,8 @@ import javax.management.relation.Role;
 @Entity
 @Table(name = "auth_user")
 public class AuthUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
     private String username;
