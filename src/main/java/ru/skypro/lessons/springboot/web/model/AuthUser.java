@@ -2,8 +2,6 @@ package ru.skypro.lessons.springboot.web.model;
 
 import jakarta.persistence.*;
 
-import javax.management.relation.Role;
-
 @Entity
 @Table(name = "auth_user")
 public class AuthUser {
@@ -12,8 +10,10 @@ public class AuthUser {
     private Long id;
     @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     private Long getId() {
