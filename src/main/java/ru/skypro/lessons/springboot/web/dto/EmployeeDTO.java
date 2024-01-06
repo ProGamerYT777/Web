@@ -1,0 +1,97 @@
+package ru.skypro.lessons.springboot.web.dto;
+
+import ru.skypro.lessons.springboot.web.model.Employee;
+import ru.skypro.lessons.springboot.web.model.Position;
+
+public class EmployeeDTO {
+    private Integer id;
+    private String name;
+    private int salary;
+    private PositionDTO position;
+    private int count = 0;
+
+    public EmployeeDTO() {
+
+    }
+
+    public EmployeeDTO( String name, Integer salary, PositionDTO position) {
+        this.id = count++;
+        this.name = name;
+        this.salary = salary;
+        this.position = position;
+    }
+
+    public EmployeeDTO(Integer id, String name, Integer salary, PositionDTO position) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.position = position;
+    }
+
+    public static EmployeeDTO fromEmployee(Employee employee) {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(employee.getId());
+        employeeDTO.setName(employee.getName());
+        employeeDTO.setSalary(employee.getSalary());
+        var position = employee.getPosition();
+        var positionDto = new PositionDTO(position.getId(), position.getName());
+        employeeDTO.setPosition(positionDto);
+        return employeeDTO;
+    }
+
+    public static Employee toEmployee(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        employee.setId(employeeDTO.getId());
+        employee.setName(employeeDTO.getName());
+        employee.setSalary(employeeDTO.getSalary());
+
+        var positionDto = employeeDTO.getPosition();
+        var position = new Position();
+        position.setId(positionDto.getId());
+        position.setName(positionDto.getName());
+        employee.setPosition(position);
+        return employee;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public PositionDTO getPosition() {
+        return position;
+    }
+
+    public void setPosition(PositionDTO position) {
+        this.position = position;
+    }
+    @Override
+    public String toString() {
+        return "EmployeeDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                ", position=" + position +
+                '}';
+    }
+}
+
