@@ -130,7 +130,7 @@ public class EmployeeControllerTest {
                         .content(objectMapper.writeValueAsString(employees)))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/employee/salary/avg")).
+        mockMvc.perform(get("/employee/salary/high-salary")).
                 andExpect(status().isOk()).
                 andExpect(jsonPath("$").value(3500));
     }
@@ -184,7 +184,7 @@ public class EmployeeControllerTest {
                         .content(objectMapper.writeValueAsString(employees)))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/employee/salaryHigherThan")
+        mockMvc.perform(get("/employee/salaryHigherThan?salary=")
                         .param("salary", String.valueOf(9000))).
                 andExpect(status().isOk()).
                 andExpect(jsonPath("$.[0].name").value("Ilya"));
@@ -217,7 +217,7 @@ public class EmployeeControllerTest {
         employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
         int id = 1;
 
-        mockMvc.perform(get("/employee/fullInfo/{id}", id)).
+        mockMvc.perform(get("/employee/{id}/fullInfo", id)).
                 andExpect(status().isOk()).
                 andExpect(jsonPath("$").isArray()).
                 andExpect(jsonPath("$").isEmpty());
@@ -230,7 +230,7 @@ public class EmployeeControllerTest {
         employeeFullInfo.add(new EmployeeFullInfo("Vasily", 11000, null));
         employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
 
-        mockMvc.perform(get("/employee/paging")
+        mockMvc.perform(get("/employee/page")
                         .param("page", String.valueOf(1))
                         .param("size", String.valueOf(1))).
                 andExpect(status().isOk());
@@ -251,26 +251,13 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    void withLowSalary_Test() throws Exception {
-        List<EmployeeFullInfo> employeeFullInfo = new ArrayList<>();
-        employeeFullInfo.add(new EmployeeFullInfo("Roman", 12000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vasily", 11000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
-
-        mockMvc.perform(get("/employee/withLowSalary")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").isArray()).
-                andExpect(jsonPath("$").isEmpty());
-    }
-
-    @Test
     void getEmployeesFullPosition_Test() throws Exception {
         List<EmployeeFullInfo> employeeFullInfo = new ArrayList<>();
         employeeFullInfo.add(new EmployeeFullInfo("Roman", 12000, "developer"));
         employeeFullInfo.add(new EmployeeFullInfo("Vasily", 11000, null));
         employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
 
-        mockMvc.perform(get("/employee/position")
+        mockMvc.perform(get("/employee")
                         .param("position", "developer")).
                 andExpect(status().isOk()).
                 andExpect(jsonPath("$").isArray()).

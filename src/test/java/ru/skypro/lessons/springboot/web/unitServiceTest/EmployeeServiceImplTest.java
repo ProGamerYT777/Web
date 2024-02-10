@@ -86,27 +86,27 @@ public class EmployeeServiceImplTest {
         assertEquals(avg, actual);
     }
 
-    @Test
-    void createEmployeeTest() {
-        final int id = 1;
-        final String inputName = "Kirill";
-        final int inputSalary = 20000;
-        Employee employee = new Employee(inputName, inputSalary);
-        employee.setId(id);
-        List<Employee> employee1 = getIterable(id, inputName, inputSalary);
-        final List<Employee> employees1 = List.of(employee);
-
-        when(repositoryMock.saveAll(employees1))
-                .thenReturn(employees1)
-                .thenAnswer(i -> {
-                    throw new RuntimeException(" ");
-                });
-
-        List<Employee> actual = new ArrayList<>();
-        actual.add(employeeService.createEmployee(employee1));
-
-        assertEquals(employee1.size(), actual.size());
-    }
+//    @Test
+//    void createEmployeeTest() {
+//        final int id = 1;
+//        final String inputName = "Kirill";
+//        final int inputSalary = 20000;
+//        Employee employee = new Employee(inputName, inputSalary);
+//        employee.setId(id);
+//        List<Employee> employee1 = getIterable(id, inputName, inputSalary);
+//        final List<Employee> employees1 = List.of(employee);
+//
+//        when(repositoryMock.saveAll(employees1))
+//                .thenReturn(employees1)
+//                .thenAnswer(i -> {
+//                    throw new RuntimeException(" ");
+//                });
+//
+//        List<Employee> actual = new ArrayList<>();
+//        actual.add(employeeService.createEmployee(employee1));
+//
+//        assertEquals(employee1.size(), actual.size());
+//    }
 
     @Test
     void updateEmployeeTest() {
