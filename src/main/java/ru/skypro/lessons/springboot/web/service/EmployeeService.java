@@ -21,9 +21,9 @@ public interface EmployeeService {
     void updateEmployeeById(Employee employee);
     Optional<Employee> getEmployeeById(Integer id);
     void deleteById(Integer id);
-    List<Employee> employeesSalaryHighThan(int salary);
+    List<Employee> employeesSalaryHighThan(Integer salary);
     List<Employee> getEmployeeWithHighestSalary();
-    List<Employee> getEmployeesByPositionLike(Position position);
+    List<Employee> getEmployeesByPositionLike(String position);
     List<EmployeeFullInfo> getFullInfo(Integer id);
     List<Employee> getPageInfo(int pageIndex, int unitPerPage);
     void upload(MultipartFile file) throws IOException;

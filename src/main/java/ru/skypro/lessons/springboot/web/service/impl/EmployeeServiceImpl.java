@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
-import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,25 +32,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public double sumSalariesEmployees() {
         logger.info("Was invoked method to get the amount of employees salaries");
-        return employeeRepository.sumSalariesEmployees();
+        return employeeRepository.salarySum();
     }
 
     @Override
     public Employee minSalaryEmployee() {
         logger.info("Was invoked method to get an employee with a minimum salary");
-        return employeeRepository.minSalaryEmployee();
+        return employeeRepository.minSalary()
+                .orElse(null);
     }
 
     @Override
     public Employee maxSalaryEmployee() {
         logger.info("Was invoked method to get an employee with the maximum salary");
-        return employeeRepository.maxSalaryEmployee();
+        return employeeRepository.maxSalary()
+                .stream()
+                .max(Comparator.comparing(Employee::getSalary))
+                .get();
     }
 
     @Override
     public Integer highAverageSalariesEmployees() {
         logger.info("Was invoked method to get all employees whose salary is higher than the average");
-        return employeeRepository.highAverageSalariesEmployees();
+        return employeeRepository.employeeHighSalary();
     }
 
     @Override
@@ -78,9 +82,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> employeesSalaryHighThan(int salary) {
+    public List<Employee> employeesSalaryHighThan(Integer salary) {
         logger.info("Was invoked method to get all employees whose salary is higher than the salary parameter " + salary);
-        return employeeRepository.employeesSalaryHighThan(salary);
+        return employeeRepository.findEmployeeBySalaryIsGreaterThan(salary);
     }
 
     @Override
@@ -90,9 +94,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getEmployeesByPositionLike(Position position) {
+    public List<Employee> getEmployeesByPositionLike(String position) {
         logger.info("Was invoked method to get information about all employees of the company specified in the position parameter " + position);
-        return employeeRepository.getEmployeesByPositionLike(position);
+        return employeeRepository.findEmployeeByPosition_Position(position);
     }
 
     @Override

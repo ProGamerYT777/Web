@@ -43,8 +43,8 @@ public class EmployeeServiceImplTest {
         final String inputName = "Kirill";
         final int inputSalary = 20000;
         Employee employee = new Employee(id, inputName, inputSalary, new Position(0, "Java"));
-        when(repositoryMock.minSalaryEmployee())
-                .thenReturn(employee);
+        when(repositoryMock.minSalary())
+                .thenReturn(Optional.of(employee));
 
         assertEquals(employee, employeeService.minSalaryEmployee());
     }
@@ -59,8 +59,8 @@ public class EmployeeServiceImplTest {
                 new Employee(id, inputName, 300000, new Position(1, "Java")));
         Employee employee = list.stream()
                 .max(Comparator.comparing(Employee::getSalary)).get();
-        when(repositoryMock.maxSalaryEmployee())
-                .thenReturn((Employee) list);
+        when(repositoryMock.maxSalary())
+                .thenReturn(list);
 
         Employee actual = employeeService.maxSalaryEmployee();
         assertEquals(employee, actual);
@@ -69,7 +69,7 @@ public class EmployeeServiceImplTest {
     @Test
     void salarySumTest() {
         double sum = 22000;
-        when(repositoryMock.sumSalariesEmployees())
+        when(repositoryMock.salarySum())
                 .thenReturn(sum);
 
         double actual = employeeService.sumSalariesEmployees();
@@ -79,34 +79,34 @@ public class EmployeeServiceImplTest {
     @Test
     void employeeHighAverageSalaryTest() {
         int avg = 10000;
-        when(repositoryMock.highAverageSalariesEmployees())
+        when(repositoryMock.employeeHighSalary())
                 .thenReturn(avg);
 
         int actual = employeeService.highAverageSalariesEmployees();
         assertEquals(avg, actual);
     }
 
-//    @Test
-//    void createEmployeeTest() {
-//        final int id = 1;
-//        final String inputName = "Kirill";
-//        final int inputSalary = 20000;
-//        Employee employee = new Employee(inputName, inputSalary);
-//        employee.setId(id);
-//        List<Employee> employee1 = getIterable(id, inputName, inputSalary);
-//        final List<Employee> employees1 = List.of(employee);
-//
-//        when(repositoryMock.saveAll(employees1))
-//                .thenReturn(employees1)
-//                .thenAnswer(i -> {
-//                    throw new RuntimeException(" ");
-//                });
-//
-//        List<Employee> actual = new ArrayList<>();
-//        actual.add(employeeService.createEmployee(employee1));
-//
-//        assertEquals(employee1.size(), actual.size());
-//    }
+    @Test
+    void createEmployeeTest() {
+        final int id = 1;
+        final String inputName = "Kirill";
+        final int inputSalary = 20000;
+        Employee employee = new Employee(inputName, inputSalary);
+        employee.setId(id);
+        List<Employee> employee1 = getIterable(id, inputName, inputSalary);
+        final List<Employee> employees1 = List.of(employee);
+
+        when(repositoryMock.saveAll(employees1))
+                .thenReturn(employees1)
+                .thenAnswer(i -> {
+                    throw new RuntimeException(" ");
+                });
+
+        List<Employee> actual = new ArrayList<>();
+        actual.add(employeeService.createEmployee(employee1));
+
+        assertEquals(employee1.size(), actual.size());
+    }
 
     @Test
     void updateEmployeeTest() {
@@ -174,7 +174,7 @@ public class EmployeeServiceImplTest {
         employee.setSalary(2222);
         List<Employee> employees = List.of(employee);
 
-        when(repositoryMock.employeesSalaryHighThan(than))
+        when(repositoryMock.findEmployeeBySalaryIsGreaterThan(than))
                 .thenReturn(employees);
         List<Employee> employeeDTO = employeeService.employeesSalaryHighThan(than);
         assertEquals(employees.size(), employeeDTO.size());
@@ -186,8 +186,8 @@ public class EmployeeServiceImplTest {
         final String inputName = "Kirill";
         final int inputSalary = 20000;
         List<Employee> employees = getIterable(id, inputName, inputSalary);
-        when(repositoryMock.maxSalaryEmployee())
-                .thenReturn((Employee) employees);
+        when(repositoryMock.maxSalary())
+                .thenReturn(employees);
         EmployeeDTO actual = EmployeeDTO.fromEmployee(employeeService.maxSalaryEmployee());
 
         assertEquals(employees.get(0), actual);

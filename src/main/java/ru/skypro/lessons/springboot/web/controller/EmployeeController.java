@@ -58,7 +58,7 @@ public class EmployeeController {
         employeeService.deleteById(id);
     }
     @GetMapping("/salaryHigherThan?salary=")
-    public List<Employee> showEmployeesSalaryHighThan(@RequestParam("salary") int salary) {
+    public List<Employee> showEmployeesSalaryHighThan(@RequestParam("salary") Integer salary) {
         return employeeService.employeesSalaryHighThan(salary);
     }
     @GetMapping("/withHighestSalary")
@@ -66,7 +66,7 @@ public class EmployeeController {
             return employeeService.getEmployeeWithHighestSalary();
     }
     @GetMapping
-        public List<Employee> getEmployeesByPositionLike(@RequestParam("position") Position position) {
+        public List<Employee> getEmployeesByPositionLike(@RequestParam("position") String position) {
             return employeeService.getEmployeesByPositionLike(position);
     }
     @GetMapping("/{id}/fullInfo")
