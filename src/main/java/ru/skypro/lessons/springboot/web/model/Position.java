@@ -11,18 +11,7 @@ public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    @OneToMany(mappedBy = "position")
-    @JsonManagedReference
-    private List<Employee> employee;
-
-    public Position() {
-    }
-
-    public Position(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private String position;
 
     public Integer getId() {
         return id;
@@ -32,19 +21,11 @@ public class Position {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPosition() {
+        return position;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Position{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public void setPosition(String position) {
+        this.position = position;
     }
 }

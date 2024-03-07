@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
 import ru.skypro.lessons.springboot.web.model.Position;
@@ -22,65 +23,57 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
+
     @GetMapping("/salary/sum")
-    public double showSumSalaries() {
-        return employeeService.sumSalariesEmployees();
+    public double getSalarySum() {
+        return employeeService.salarySum();
     }
+
     @GetMapping("/salary/min")
-    public Employee showMinSalary() {
-        return employeeService.minSalaryEmployee();
+    public EmployeeDTO getSalaryMin() {
+        return employeeService.minSalary();
     }
+
     @GetMapping("/salary/max")
-    public Employee showMaxSalary() {
-        return employeeService.maxSalaryEmployee();
+    public EmployeeDTO getSalaryMax() {
+        return employeeService.maxSalary();
     }
-    @GetMapping("/high-salary")
-    public Integer showHighAverageSalaries() {
-        return employeeService.highAverageSalariesEmployees();
+
+    @GetMapping("/salary/high-salary")
+    public Integer getEmployeeHighSalary() {
+        return employeeService.employeeHighSalary();
     }
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/")
-    public void createEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
-    }
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PutMapping("/{id}")
-    public void updateEmployeeById(@PathVariable("id") @RequestBody Employee employee) {
-        employeeService.updateEmployeeById(employee);
-    }
+
     @GetMapping("/{id}")
-    public Optional<Employee> getEmployeeById(@PathVariable("id") Integer id) {
+    public EmployeeDTO getEmployeeById(@PathVariable int id) {
         return employeeService.getEmployeeById(id);
     }
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable("id") Integer id) {
-        employeeService.deleteById(id);
+
+    @GetMapping("/all-employee-new")
+    public List<EmployeeDTO> all() {
+        return employeeService.getAllNew();
     }
-    @GetMapping("/salaryHigherThan?salary=")
-    public List<Employee> showEmployeesSalaryHighThan(@RequestParam("salary") Integer salary) {
-        return employeeService.employeesSalaryHighThan(salary);
-    }
-    @GetMapping("/withHighestSalary")
-        public List<Employee> showEmployeeWithHighestSalary() {
-            return employeeService.getEmployeeWithHighestSalary();
+
+    @GetMapping("withHighestSalary")
+    public List<EmployeeDTO> salaryWithHighestSalary() {
+        return employeeService.withHighestSalary();
     }
     @GetMapping
-        public List<Employee> getEmployeesByPositionLike(@RequestParam("position") String position) {
-            return employeeService.getEmployeesByPositionLike(position);
+    public List<EmployeeDTO> getEmployeesForPosition(@RequestParam(required = false) String position) {
+        return employeeService.getEmployee(
+                Optional.ofNullable(position)
+                        .filter(p -> !p.isEmpty())
+                        .orElse(null));
     }
     @GetMapping("/{id}/fullInfo")
-        public List<EmployeeFullInfo> getFullInfo(@PathVariable("id") Integer id) {
-            return employeeService.getFullInfo(id);
+    public EmployeeDTO getEmployeeFullInfo(@PathVariable int id) {
+        return employeeService.getEmployeeFullInfo(id);
     }
     @GetMapping("/page")
-        public List<Employee> getPageInfo(@RequestParam ("page") int pageIndex, int unitPerPage) {
-            return employeeService.getPageInfo(pageIndex, unitPerPage);
-    }
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-        public void upload(@RequestParam("file") MultipartFile file) throws IOException {
-        employeeService.upload(file);
+    public List<EmployeeDTO> getEmployeesFromPage(@RequestParam(required = false, defaultValue = "0")  int page) {
+        return employeeService.getEmployeesFromPage(page);
+
     }
 }
 

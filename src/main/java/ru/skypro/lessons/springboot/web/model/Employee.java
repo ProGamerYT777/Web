@@ -4,59 +4,35 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("id")
     private Integer id;
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("salary")
-    private int salary;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "position_id")
-    @JsonBackReference
-    @JsonProperty("position")
+
+    private  String name;
+    private  int salary;
+    @ManyToOne
     private Position position;
-    private int counter = 0;
 
-    public Employee() {
-    }
-
-    public Employee(Integer id, String name, int salary) {
-        this.id = id;
-        this.name = name;
-        this.salary = salary;
-    }
-
-    public Employee(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
     public Employee(String name, int salary) {
-        this.id = counter++;
         this.name = name;
         this.salary = salary;
+
     }
-    public Employee(Integer id, String name, int salary, Position position) {
-        this.id = id;
-        this.name = name;
-        this.salary = salary;
-        this.position = position;
-    }
-    public Employee(String name) {
-        this.name = name;
+    public Employee() {
+
     }
 
     public Integer getId() {
         return id;
     }
 
-    public int setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
-        return id;
     }
 
     public String getName() {
@@ -84,12 +60,15 @@ public class Employee {
     }
 
     @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", salary=" + salary +
-                ", position=" + position +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee1 = (Employee) o;
+        return salary == employee1.salary && Objects.equals(id, employee1.id) && Objects.equals(name, employee1.name) && Objects.equals(position, employee1.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, salary, position);
     }
 }

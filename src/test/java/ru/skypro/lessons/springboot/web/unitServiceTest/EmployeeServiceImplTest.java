@@ -6,14 +6,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
+import ru.skypro.lessons.springboot.web.mapper.EmployeeMapper;
 import ru.skypro.lessons.springboot.web.model.Employee;
-import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 import ru.skypro.lessons.springboot.web.service.impl.EmployeeServiceImpl;
+import ru.skypro.lessons.springboot.web.service.impl.ReportServiceImpl;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -34,36 +36,56 @@ public class EmployeeServiceImplTest {
 
     @Mock
     private EmployeeRepository repositoryMock;
+    @Spy
+    private EmployeeMapper employeeMapper;
     @InjectMocks
     private EmployeeServiceImpl employeeService;
+    @InjectMocks
+    private ReportServiceImpl out;
 
     @Test
-    void getMinimumSalaryEmployee() {
+    void getAllNewTest() {
         final int id = 1;
-        final String inputName = "Kirill";
+        final String inputName = "Vasya";
         final int inputSalary = 20000;
-        Employee employee = new Employee(id, inputName, inputSalary, new Position(0, "Java"));
-        when(repositoryMock.minSalary())
-                .thenReturn(Optional.of(employee));
+        Employee employee = new Employee(inputName, inputSalary);
+        employee.setId(id);
+        final List<EmployeeDTO> employees = getIterable(id, inputName, inputSalary);
+        final List<Employee> employees1 = List.of(employee);
+        when(repositoryMock.findAll())
+                .thenReturn(employees1);
+        List<EmployeeDTO> actual = employeeService.getAllNew();
 
-        assertEquals(employee, employeeService.minSalaryEmployee());
+        assertEquals(employees.size(), actual.size());
+
     }
 
     @Test
-    void getMaximumSalaryEmployee() {
+    void getMinimumSalaryEmployeeInDepartment() {
         final int id = 1;
-        final String inputName = "Kirill";
+        final String inputName = "Vasya";
+        final int inputSalary = 20000;
+        EmployeeDTO employeeDTO = new EmployeeDTO(id, inputName, inputSalary, "java");
+        when(repositoryMock.minSalary())
+                .thenReturn(Optional.of(employeeDTO));
+
+        assertEquals(employeeDTO, employeeService.minSalary());
+    }
+
+    @Test
+    void getMaximumSalaryEmployeeInDepartment() {
+        final int id = 1;
+        final String inputName = "Vasya";
         final int inputSalary = 220000;
-        List<Employee> list = List.of(
-                new Employee(id, inputName, inputSalary, new Position(0, "Java")),
-                new Employee(id, inputName, 300000, new Position(1, "Java")));
-        Employee employee = list.stream()
-                .max(Comparator.comparing(Employee::getSalary)).get();
+        List<EmployeeDTO> list = List.of(
+                new EmployeeDTO(id, inputName, inputSalary, "java"), new EmployeeDTO(id, inputName, 300000, "java"));
+        EmployeeDTO employeeDTO = list.stream()
+                .max(Comparator.comparing(EmployeeDTO::getSalary)).get();
         when(repositoryMock.maxSalary())
                 .thenReturn(list);
 
-        Employee actual = employeeService.maxSalaryEmployee();
-        assertEquals(employee, actual);
+        EmployeeDTO actual = employeeService.maxSalary();
+        assertEquals(employeeDTO, actual);
     }
 
     @Test
@@ -72,28 +94,28 @@ public class EmployeeServiceImplTest {
         when(repositoryMock.salarySum())
                 .thenReturn(sum);
 
-        double actual = employeeService.sumSalariesEmployees();
+        double actual = employeeService.salarySum();
         assertEquals(sum, actual);
     }
 
     @Test
-    void employeeHighAverageSalaryTest() {
+    void employeeHighSalaryTest() {
         int avg = 10000;
         when(repositoryMock.employeeHighSalary())
                 .thenReturn(avg);
 
-        int actual = employeeService.highAverageSalariesEmployees();
+        int actual = employeeService.employeeHighSalary();
         assertEquals(avg, actual);
     }
 
     @Test
-    void createEmployeeTest() {
+    void addEmployeeTest() {
         final int id = 1;
-        final String inputName = "Kirill";
+        final String inputName = "Vasya";
         final int inputSalary = 20000;
         Employee employee = new Employee(inputName, inputSalary);
         employee.setId(id);
-        List<Employee> employee1 = getIterable(id, inputName, inputSalary);
+        List<EmployeeDTO> employeeDTOS = getIterable(id, inputName, inputSalary);
         final List<Employee> employees1 = List.of(employee);
 
         when(repositoryMock.saveAll(employees1))
@@ -102,19 +124,19 @@ public class EmployeeServiceImplTest {
                     throw new RuntimeException(" ");
                 });
 
-        List<Employee> actual = new ArrayList<>();
-        actual.add(employeeService.createEmployee(employee1));
+        List<EmployeeDTO> actual = new ArrayList<>();
+        actual.add(employeeService.addEmployee(employeeDTOS).get(0));
 
-        assertEquals(employee1.size(), actual.size());
+        assertEquals(employeeDTOS.size(), actual.size());
     }
 
     @Test
     void updateEmployeeTest() {
         final int id = 1;
-        final String inputName = "Kirill";
+        final String inputName = "Vasya";
         final int inputSalary = 20000;
 
-        Employee actual = new Employee(id, "inputName", 1000, new Position(0, "Java"));
+        EmployeeDTO actual = new EmployeeDTO(id, "inputName", 1000, "java");
         Employee employee = new Employee(inputName, inputSalary);
         employee.setId(id);
 
@@ -122,7 +144,7 @@ public class EmployeeServiceImplTest {
                 .thenReturn(Optional.of(employee));
         when(repositoryMock.save(employee))
                 .thenReturn(employee);
-        employeeService.updateEmployeeById(actual);
+        employeeService.update(id, actual);
 
         assertEquals(employee.getName(), actual.getName());
         assertEquals(employee.getSalary(), actual.getSalary());
@@ -133,7 +155,7 @@ public class EmployeeServiceImplTest {
         int id = 1;
         Employee employee = new Employee();
         employee.setId(id);
-        employee.setName("Anton");
+        employee.setName("John");
         employee.setSalary(2222);
         repositoryMock.save(employee);
         when(repositoryMock.findById(employee.getId()))
@@ -141,10 +163,10 @@ public class EmployeeServiceImplTest {
                 .thenAnswer(i -> {
                     throw new RuntimeException(" ");
                 });
-        Optional<Employee> employee1 = employeeService.getEmployeeById(id);
-        assertEquals(employee.getName(), employee1.get().getName());
-        assertEquals(employee.getSalary(), employee1.get().getSalary());
-        assertEquals(employee.getId(), employee1.get().getId());
+        EmployeeDTO employee1 = employeeService.getEmployeeById(id);
+        assertEquals(employee.getName(), employee1.getName());
+        assertEquals(employee.getSalary(), employee1.getSalary());
+        assertEquals(employee.getId(), employee1.getId());
     }
 
     @Test
@@ -152,13 +174,13 @@ public class EmployeeServiceImplTest {
         int id = 1;
         Employee employee = new Employee();
         employee.setId(id);
-        employee.setName("Anton");
+        employee.setName("John");
         employee.setSalary(2222);
 
         when(repositoryMock.findById(1))
                 .thenReturn(Optional.of(employee));
 
-        employeeService.deleteById(id);
+        employeeService.deleteEmployee(id);
 
         verify(repositoryMock, times(1)).delete(employee);
 
@@ -170,25 +192,25 @@ public class EmployeeServiceImplTest {
         int than = 1000;
         Employee employee = new Employee();
         employee.setId(1);
-        employee.setName("Anton");
+        employee.setName("John");
         employee.setSalary(2222);
         List<Employee> employees = List.of(employee);
 
         when(repositoryMock.findEmployeeBySalaryIsGreaterThan(than))
                 .thenReturn(employees);
-        List<Employee> employeeDTO = employeeService.employeesSalaryHighThan(than);
-        assertEquals(employees.size(), employeeDTO.size());
+        List<EmployeeDTO> employeeDTOS = employeeService.salaryHigherThan(than);
+        assertEquals(employees.size(), employeeDTOS.size());
     }
 
     @Test
     void withHighestSalaryTest() {
         final int id = 1;
-        final String inputName = "Kirill";
+        final String inputName = "Vasya";
         final int inputSalary = 20000;
-        List<Employee> employees = getIterable(id, inputName, inputSalary);
+        List<EmployeeDTO> employees = getIterable(id, inputName, inputSalary);
         when(repositoryMock.maxSalary())
                 .thenReturn(employees);
-        EmployeeDTO actual = EmployeeDTO.fromEmployee(employeeService.maxSalaryEmployee());
+        EmployeeDTO actual = employeeService.maxSalary();
 
         assertEquals(employees.get(0), actual);
     }
@@ -198,12 +220,12 @@ public class EmployeeServiceImplTest {
         final int id = 1;
         Employee employee = new Employee();
         employee.setId(id);
-        employee.setName("Anton");
+        employee.setName("John");
         employee.setSalary(2222);
         when(repositoryMock.findById(id))
                 .thenReturn(Optional.of(employee));
 
-        EmployeeDTO actual = (EmployeeDTO) employeeService.getFullInfo(id);
+        EmployeeDTO actual = employeeService.getEmployeeFullInfo(id);
         assertEquals(employee.getName(), actual.getName());
         assertEquals(employee.getSalary(), actual.getSalary());
         assertEquals(employee.getId(), actual.getId());
@@ -214,7 +236,7 @@ public class EmployeeServiceImplTest {
         int page = 3;
 
         final int id = 1;
-        final String inputName = "Kirill";
+        final String inputName = "Vasya";
         final int inputSalary = 20000;
         Employee employee = new Employee(inputName, inputSalary);
         employee.setId(id);
@@ -225,26 +247,30 @@ public class EmployeeServiceImplTest {
 
         List<Employee> actual = repositoryMock.findAll().stream().limit(page).toList();
         assertEquals(actual.size(), page);
-    }
-    @Test
+
+    }    @Test
     public void ShouldAddEmployeeFromFileToDB() throws IOException {
-        Employee employee = new Employee(1, "Anastasia", 150000, new Position(0, "Analyst"));
+        List<EmployeeDTO> employeeDTOExpected = List.of(new EmployeeDTO(3, "Irina", 150000, "Analyst"));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(employee);
+        String json = objectMapper.writeValueAsString(employeeDTOExpected);
         MockMultipartFile file = new MockMultipartFile("employee", "employee.json", MediaType.MULTIPART_FORM_DATA_VALUE, json.getBytes());
         List<EmployeeDTO> actual = objectMapper.readValue(json, new TypeReference<>() {
         });
-        assertEquals(employee, actual);
+        assertEquals(employeeDTOExpected, actual);
 
 
     }
 
 
-    private static List<Employee> getIterable(int id, String inputName, int inputSalary) {
-        return List.of(new Employee(id, inputName, inputSalary, new Position(0, "Java")));
-    }
 
+    private static List<EmployeeDTO> getIterable(int id,
+                                                 String inputName,
+                                                 int inputSalary) {
+
+        return List.of(new EmployeeDTO(id, inputName, inputSalary, "java")
+        );
+    }
     private static String readTextFromFile(String fileName) {
         try {
 

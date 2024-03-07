@@ -2,6 +2,9 @@ package ru.skypro.lessons.springboot.web.integrationControllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import lombok.SneakyThrows;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ import ru.skypro.lessons.springboot.web.repository.ReportRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,256 +34,286 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(properties = { "spring.liquibase.enabled=false" })
 @AutoConfigureMockMvc
-@Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class EmployeeControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
-
+    private MockMvc mockMvc;
     @Autowired
-    public EmployeeRepository employeeRepository;
-    @Autowired
-    public ReportRepository reportRepository;
-    @Autowired
-    private ObjectMapper objectMapper;
+    private EmployeeRepository employeeRepository;
 
     @BeforeEach
     private void cleanData() {
         employeeRepository.deleteAll();
-    }
-
-    private Employee createTestEmployee(String name) {
-        Employee employee = new Employee(name);
-        return employeeRepository.save(employee);
-    }
-
-    @Test
-    void getEmployeeInDatabase_thenEmptyJsonArray() throws Exception {
-        mockMvc.perform(get("/employee")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").isArray()).
-                andExpect(jsonPath("$").isEmpty());
-    }
-
-    @Test
-    void deleteEmployeeById_thenCheckNotContainEmployee() throws Exception {
-        Employee employee = new Employee(1, "Andrey", 1200, new Position(0, "developer"));
-        mockMvc.perform(delete("/employee/{id}", employee.getId()))
-                .andExpect(status().isOk());
 
     }
 
     @Test
-    void addEmployee_test() throws Exception {
-        List<Employee> employee = new ArrayList<>();
-        employee.add(new Employee(1, "Andrey", 12000, new Position(0, "test")));
-        mockMvc.perform(post("/employee")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(employee)))
+    @SneakyThrows
+    void getEmployeesTest() throws Exception {
+        int expectedCount = 5;
+        employeeRepository.deleteAll();
+        mockMvc.perform(get("/employee"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].name").value("Andrey"));
+                .andExpect(jsonPath("$.length()").value(0));
+        employeeRepository.saveAll(employees(expectedCount));
+        mockMvc.perform(get("/employee"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(expectedCount));
+
 
     }
 
     @Test
-    void editEmployee_changName() throws Exception {
-        int id = createTestEmployee("Nikolay").getId();
-        mockMvc.perform(put("/employee/{id}", id)
-                        .content(objectMapper.writeValueAsString(new Employee(id, "Michail")))
+    void salarySumTest() throws Exception {
+
+        JSONObject employee1 = new JSONObject();
+        employee1.put("id", 1);
+        employee1.put("name", "Kate");
+        employee1.put("salary", 100000);
+
+        JSONObject employee3 = new JSONObject();
+        employee3.put("id", 3);
+        employee3.put("name", "Ivan");
+        employee3.put("salary", 30000);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(employee1);
+        jsonArray.put(employee3);
+
+        System.out.println(jsonArray);
+        mockMvc.perform(post("/admin/employee")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-        mockMvc.perform(get("/employee")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].name").value("Michail"));
+                        .content(jsonArray.toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        mockMvc.perform(get("/employee/salary/sum"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(130000))
+        ;
+
     }
 
-
     @Test
-    void getShowSalary_test() throws Exception {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee("Ivan", 1000));
-        employees.add(new Employee("Ilya", 10000));
-        employees.add(new Employee("Dmitry", 1000));
-        employees.add(new Employee("Petr", 2000));
+    void givenThereIsListOfEmployeeCreated_whenGetAllEmployeesMaxSalary_thenTheyExistInList() throws Exception {
 
-        mockMvc.perform(post("/employee")
+
+        JSONObject employee1 = new JSONObject();
+        employee1.put("id", 1);
+        employee1.put("name", "Kate");
+        employee1.put("salary", 100000);
+
+
+        JSONObject employee2 = new JSONObject();
+        employee2.put("id", 2);
+        employee2.put("name", "Alex");
+        employee2.put("salary", 120000);
+
+
+        JSONObject employee3 = new JSONObject();
+        employee3.put("id", 3);
+        employee3.put("name", "Ivan");
+        employee3.put("salary", 30000);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(employee3);
+        jsonArray.put(employee2);
+        jsonArray.put(employee1);
+
+        System.out.println(jsonArray);
+        mockMvc.perform(post("/admin/employee")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(employees)))
-                .andExpect(status().isOk());
+                        .content(jsonArray.toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
 
-        mockMvc.perform(get("/employee/salary/sum")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").value(14000));
+
+        mockMvc.perform(get("/employee/salary/max"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.salary").value(120000));
     }
 
     @Test
-    void getShowAvgSalary_test() throws Exception {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee("Ivan", 1000));
-        employees.add(new Employee("Ilya", 10000));
-        employees.add(new Employee("Dmitry", 1000));
-        employees.add(new Employee("Petr", 2000));
+    void givenThereIsListOfEmployeeCreated_whenGetAllEmployeesMinSalary_thenTheyExistInList() throws Exception {
 
-        mockMvc.perform(post("/employee")
+
+        JSONObject employee1 = new JSONObject();
+        employee1.put("id", 1);
+        employee1.put("name", "Kate");
+        employee1.put("salary", 100000);
+
+
+        JSONObject employee2 = new JSONObject();
+        employee2.put("id", 2);
+        employee2.put("name", "Alex");
+        employee2.put("salary", 120000);
+
+
+        JSONObject employee3 = new JSONObject();
+        employee3.put("id", 3);
+        employee3.put("name", "Ivan");
+        employee3.put("salary", 300000);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(employee3);
+        jsonArray.put(employee2);
+        jsonArray.put(employee1);
+
+        System.out.println(jsonArray);
+        mockMvc.perform(post("/admin/employee")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(employees)))
-                .andExpect(status().isOk());
+                        .content(jsonArray.toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
 
-        mockMvc.perform(get("/employee/salary/high-salary")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").value(3500));
+
+        mockMvc.perform(get("/employee/salary/min"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.salary").value(100000));
     }
 
     @Test
-    void getShowSalaryMin_test() throws Exception {
-        List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
+    void employeeForId() throws Exception {
 
-        mockMvc.perform(post("/employee")
+        JSONObject employee1 = new JSONObject();
+        employee1.put("id", 1);
+        employee1.put("name", "Kate");
+        employee1.put("salary", 100000);
+
+        JSONObject employee3 = new JSONObject();
+        employee3.put("id", 2);
+        employee3.put("name", "Ivan");
+        employee3.put("salary", 30000);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(employee1);
+        jsonArray.put(employee3);
+
+        int id = employee1.getInt("id");
+
+        mockMvc.perform(post("/admin/employee")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(employees)))
-                .andExpect(status().isOk());
+                        .content(jsonArray.toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
 
-        mockMvc.perform(get("/employee/salary/min")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$.[0].name").value("Dmitry"));
+        mockMvc.perform(get("/employee/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Kate"))
+                .andExpect(jsonPath("$.salary").value(100000));
+
     }
 
     @Test
-    void getShowSalaryMax_test() throws Exception {
-        List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
+    void getAllEmployee() throws Exception {
+        employeeRepository.deleteAll();
+        JSONObject employee1 = new JSONObject();
+        employee1.put("id", 1);
+        employee1.put("name", "Kate");
+        employee1.put("salary", 100000);
 
-        mockMvc.perform(post("/employee")
+        JSONObject employee3 = new JSONObject();
+        employee3.put("id", 2);
+        employee3.put("name", "Ivan");
+        employee3.put("salary", 30000);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(employee1);
+        jsonArray.put(employee3);
+
+        mockMvc.perform(post("/admin/employee")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(employees)))
-                .andExpect(status().isOk());
+                        .content(jsonArray.toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        mockMvc.perform(get("/employee/all-employee-new"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(2));
 
-        mockMvc.perform(get("/employee/salary/max")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$.[0].name").value("Ilya"));
     }
 
     @Test
-    void getEmployeesWithSalaryHigherThan_test() throws Exception {
-        List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
+    void getEmployeeFullInfo() throws Exception {
+        employeeRepository.deleteAll();
+        JSONObject position = new JSONObject();
+        position.put("id", 1);
+        position.put("name", "Java");
 
-        mockMvc.perform(post("/employee")
+        JSONObject employee1 = new JSONObject();
+        employee1.put("id", 6);
+        employee1.put("name", "Ivan");
+        employee1.put("salary", 100000);
+        employee1.put("position_id", position.getInt("id"));
+
+        JSONObject employee2 = new JSONObject();
+        employee2.put("id", 7);
+        employee2.put("name", "Polina");
+        employee2.put("salary", 120000);
+        employee2.put("position_id", position.getInt("id"));
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(employee1);
+        jsonArray.put(employee2);
+
+        mockMvc.perform(post("/admin/employee")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(employees)))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/employee/salaryHigherThan?salary=")
-                        .param("salary", String.valueOf(9000))).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$.[0].name").value("Ilya"));
+                        .content(jsonArray.toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        int id = employee2.getInt("id");
+        mockMvc.perform(get("/employee/{id}/fullInfo", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(7))
+                .andExpect(jsonPath("$.name").value("Polina"))
+                .andExpect(jsonPath("$.salary").value(120000));
     }
 
     @Test
-    void getEmployeesByIdWithRequired_Test() throws Exception {
-        List<EmployeeDTO> employees = new ArrayList<>();
-        employees.add(new EmployeeDTO("Ivan", 1001, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Ilya", 10000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Dmitry", 1000, new PositionDTO(0, "test")));
-        employees.add(new EmployeeDTO("Petr", 2000, new PositionDTO(0, "test")));
-        int id = 1;
+    void getEmployeeFromPage() throws Exception {
+        JSONObject position = new JSONObject();
+        position.put("id", 1);
+        position.put("name", "Java");
 
-        mockMvc.perform(post("/employee")
+        JSONObject employee1 = new JSONObject();
+        employee1.put("id", 1);
+        employee1.put("name", "Ivan");
+        employee1.put("salary", 100000);
+        employee1.put("position_id", position.getInt("id"));
+
+        JSONObject employee2 = new JSONObject();
+        employee2.put("id", 2);
+        employee2.put("name", "Polina");
+        employee2.put("salary", 120000);
+        employee2.put("position_id", position.getInt("id"));
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(employee1);
+        jsonArray.put(employee2);
+
+        mockMvc.perform(post("/admin/employee")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(employees)))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/employee/{id}", id)).
-                andExpect(status().isOk());
-
-    }
-
-    @Test
-    void getEmployeesFull_Test() throws Exception {
-        List<EmployeeFullInfo> employeeFullInfo = new ArrayList<>();
-        employeeFullInfo.add(new EmployeeFullInfo("Roman", 12000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vasily", 11000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
-        int id = 1;
-
-        mockMvc.perform(get("/employee/{id}/fullInfo", id)).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").isArray()).
-                andExpect(jsonPath("$").isEmpty());
-    }
-
-    @Test
-    void getEmployeesWithPaging_Test() throws Exception {
-        List<EmployeeFullInfo> employeeFullInfo = new ArrayList<>();
-        employeeFullInfo.add(new EmployeeFullInfo("Roman", 12000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vasily", 11000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
-
-        mockMvc.perform(get("/employee/page")
-                        .param("page", String.valueOf(1))
-                        .param("size", String.valueOf(1))).
-                andExpect(status().isOk());
-    }
-
-    @Test
-    void withHighestSalary_Test() throws Exception {
-        List<EmployeeFullInfo> employeeFullInfo = new ArrayList<>();
-        employeeFullInfo.add(new EmployeeFullInfo("Roman", 12000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vasily", 11000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
-
-        mockMvc.perform(get("/employee/withHighestSalary")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").isArray()).
-                andExpect(jsonPath("$").isEmpty());
+                        .content(jsonArray.toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        int page = 1;
+        mockMvc.perform(get("/employee/page", page))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(2));
 
     }
 
-    @Test
-    void getEmployeesFullPosition_Test() throws Exception {
-        List<EmployeeFullInfo> employeeFullInfo = new ArrayList<>();
-        employeeFullInfo.add(new EmployeeFullInfo("Roman", 12000, "developer"));
-        employeeFullInfo.add(new EmployeeFullInfo("Vasily", 11000, null));
-        employeeFullInfo.add(new EmployeeFullInfo("Vladislav", 1000, null));
+    static List<Employee> employees(int expectedCount) {
+        return Stream.generate(() ->
+                        new Employee("Petr", 12000))
+                .limit(expectedCount)
+                .toList();
 
-        mockMvc.perform(get("/employee")
-                        .param("position", "developer")).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$").isArray()).
-                andExpect(jsonPath("$").isEmpty());
-    }
-
-    @Test
-    void uploadFile_Test() throws Exception {
-
-        MockMultipartFile file
-                = new MockMultipartFile(
-                "file",("[{\"id\": 1," +
-                " \"name\": \"Andrey\"," +
-                "\"salary\": 10000," +
-                "\"position\": {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"Tester\"}}]")
-                .getBytes()
-        );
-        mockMvc.perform(MockMvcRequestBuilders
-                        .multipart(HttpMethod.POST, "/employee/upload")
-                        .file(file))
-                .andExpect(status().isOk());
     }
 }
