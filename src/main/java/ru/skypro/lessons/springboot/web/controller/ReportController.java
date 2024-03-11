@@ -1,12 +1,9 @@
 package ru.skypro.lessons.springboot.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import io.github.classgraph.Resource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
@@ -43,11 +40,11 @@ public class ReportController {
         reportService.upload(file);
     }
     @GetMapping(value = "/report/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<Resource> downloadFile(@PathVariable int id) throws IOException {
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable int id) throws IOException {
         String fileName = reportService.getReportById(id).getFile();
         String json = readTextFromFile(fileName);
 
-        Resource resource = new ByteArrayResource(json.getBytes());
+        ByteArrayResource resource = new ByteArrayResource(json.getBytes());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
