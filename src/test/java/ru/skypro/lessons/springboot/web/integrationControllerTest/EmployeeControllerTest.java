@@ -1,36 +1,29 @@
 package ru.skypro.lessons.springboot.web.integrationControllerTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import lombok.SneakyThrows;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
-import ru.skypro.lessons.springboot.web.dto.PositionDTO;
 import ru.skypro.lessons.springboot.web.model.Employee;
-import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
-import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
-import ru.skypro.lessons.springboot.web.repository.ReportRepository;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(properties = { "spring.liquibase.enabled=false" })
 @AutoConfigureMockMvc

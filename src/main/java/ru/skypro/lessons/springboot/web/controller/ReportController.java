@@ -1,6 +1,7 @@
 package ru.skypro.lessons.springboot.web.controller;
 
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +41,11 @@ public class ReportController {
         reportService.upload(file);
     }
     @GetMapping(value = "/report/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable int id) throws IOException {
+    public ResponseEntity<Resource> downloadFile(@PathVariable int id) throws IOException {
         String fileName = reportService.getReportById(id).getFile();
         String json = readTextFromFile(fileName);
 
-        ByteArrayResource resource = new ByteArrayResource(json.getBytes());
+        Resource resource = new ByteArrayResource(json.getBytes());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
