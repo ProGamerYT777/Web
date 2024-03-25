@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 5
       author: developer
       changes:
         - createTable:
@@ -14,9 +14,7 @@ databaseChangeLog:
                     primaryKey: true
               - column:
                   name: name
-                  type: String
-                  constraints:
-                    nullable: false
+                  type: varchar(60)
               - column:
                   name: salary
                   type: int
@@ -25,13 +23,3 @@ databaseChangeLog:
               - column:
                   name: position_id
                   type: int
-                  constraints:
-                    nullable: false
-              - addForeignKeyConstraint:
-                  baseTableName: employee
-                  baseColumnNames: position_id
-                  referencedTableName: position
-                  referencedColumnNames: id
-                  constraintName: employee_position_fk
-
-

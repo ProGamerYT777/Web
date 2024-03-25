@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 4
+      id: 2
       author: developer
       changes:
         - createTable:
-            tableName: position
+            tableName: report
             columns:
               - column:
                   name: id
@@ -13,7 +13,7 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: position
+                  name: file
                   type: varchar(60)
                   constraints:
                     nullable: false

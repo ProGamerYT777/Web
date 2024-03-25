@@ -17,13 +17,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.skypro.lessons.springboot.web.WebApplication;
 import ru.skypro.lessons.springboot.web.model.Employee;
 import ru.skypro.lessons.springboot.web.repository.EmployeeRepository;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-@SpringBootTest(properties = { "spring.liquibase.enabled=false" })
+@SpringBootTest(classes = WebApplication.class)
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AdminEmployeeController {

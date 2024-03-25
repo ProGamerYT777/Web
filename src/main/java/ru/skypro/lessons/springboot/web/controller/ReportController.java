@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/report")
 public class ReportController {
     private final ReportService reportService;
     private final EmployeeService employeeService;

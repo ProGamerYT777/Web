@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     @Query("SELECT SUM(e.salary) from  Employee e")

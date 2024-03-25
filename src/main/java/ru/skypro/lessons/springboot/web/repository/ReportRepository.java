@@ -8,7 +8,6 @@ import ru.skypro.lessons.springboot.web.model.Report;
 
 import java.util.List;
 
-@Repository
 public interface ReportRepository extends JpaRepository<Report, Integer> {
     @Query("SELECT new ru.skypro.lessons.springboot.web.dto.ReportDTO(p.id, count(e.id), max(e.salary), min(e.salary), avg(e.salary)) " +
             "FROM Employee e left join Position p on p.id = e.position.id " +

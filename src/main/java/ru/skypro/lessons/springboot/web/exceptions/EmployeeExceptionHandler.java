@@ -13,12 +13,16 @@ public class EmployeeExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<?> handleIOException(IOException ioException) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        String messange = "Сотрудник с данным ID не найден";
+        return new ResponseEntity<>(messange, HttpStatus.NOT_FOUND);
     }
+
 
     @ExceptionHandler
     public ResponseEntity<?> handleSQLException(SQLException sqlException) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        String messange = "Ошибка 500";
+        return new ResponseEntity<>(messange, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler

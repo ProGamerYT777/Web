@@ -1,16 +1,9 @@
 package ru.skypro.lessons.springboot.web.controller;
 
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
-import ru.skypro.lessons.springboot.web.model.Employee;
-import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
-import ru.skypro.lessons.springboot.web.model.Position;
 import ru.skypro.lessons.springboot.web.service.EmployeeService;
 
-import java.io.*;
 import java.util.List;
 import java.util.Optional;
 

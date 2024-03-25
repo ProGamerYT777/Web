@@ -1,10 +1,20 @@
 package ru.skypro.lessons.springboot.web.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import ru.skypro.lessons.springboot.web.model.Report;
 
 import java.util.Arrays;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class ReportDTO {
     private Integer position;
     private Long countEmployees;

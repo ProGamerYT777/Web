@@ -1,13 +1,17 @@
 package ru.skypro.lessons.springboot.web.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "employee")
+@Getter
+@Setter
+@Accessors(chain = true)
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

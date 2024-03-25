@@ -1,5 +1,13 @@
 databaseChangeLog:
   - include:
-      file: liquibase/changesets/01012023_create_employee.yml
+      file: liquibase/changesets/01012023_create_tables.yml
+  - include:
+      file: liquibase/changesets/01012023_create_report.yml
+  - include:
+      file: liquibase/changesets/01012023_create_users.yml
+  - include:
+      file: liquibase/changesets/01012023_create_user_role.yml
   - include:
       file: liquibase/changesets/01012023_create_position.yml
+  - include:
+      file: liquibase/changesets/01012023_create_users_user_role.yml

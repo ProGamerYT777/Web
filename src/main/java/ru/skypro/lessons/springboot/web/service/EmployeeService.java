@@ -1,17 +1,8 @@
 package ru.skypro.lessons.springboot.web.service;
 
-import io.github.classgraph.Resource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.web.dto.EmployeeDTO;
-import ru.skypro.lessons.springboot.web.model.Employee;
-import ru.skypro.lessons.springboot.web.model.EmployeeFullInfo;
-import ru.skypro.lessons.springboot.web.model.Position;
-import ru.skypro.lessons.springboot.web.model.Report;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public interface EmployeeService {
     List<EmployeeDTO> getAllNew();

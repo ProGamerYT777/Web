@@ -1,6 +1,5 @@
 package ru.skypro.lessons.springboot.web.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import ru.skypro.lessons.springboot.web.model.Report;
 
 import java.io.File;

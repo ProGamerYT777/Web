@@ -4,26 +4,21 @@ databaseChangeLog:
       author: developer
       changes:
         - createTable:
-            tableName: auth_user
+            tableName: users
             columns:
               - column:
                   name: id
-                  type: Long
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
               - column:
-                  name: username
-                  type: String
-                  constraints:
-                    nullable: false
-              - column:
                   name: password
-                  type: String
+                  type: varchar(60)
                   constraints:
                     nullable: false
               - column:
-                  name: role
-                  type: Role
+                  name: username
+                  type: varchar(60)
                   constraints:
                     nullable: false

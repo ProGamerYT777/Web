@@ -1,8 +1,11 @@
 package ru.skypro.lessons.springboot.web.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class EmployeeDTO {
     private Integer id;
     private String name;
